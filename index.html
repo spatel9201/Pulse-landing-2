@@ -1,0 +1,1668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pulse — Hotel Portfolio Intelligence</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --brand: #533afd;
+    --brand-muted: #b9b9f9;
+    --ink: #061b31;
+    --secondary: #50617a;
+    --tertiary: #64748d;
+    --rule: #d8d6df;
+    --surface-alt: #e5edf5;
+    --surface-light: #f8fafd;
+    --white: #ffffff;
+    --positive: #1a8754;
+    --negative: #c4320a;
+    --font: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    --radius: 6px;
+    --radius-sm: 4px;
+    --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+    --shadow-md: 0 4px 16px rgba(0,0,0,0.06);
+    --shadow-lg: 0 0 32px 8px rgba(0,0,0,0.05);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font);
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--ink);
+    background: var(--white);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed; top: 0; width: 100%; z-index: 100;
+    padding: 0 48px; height: 52px;
+    display: flex; justify-content: space-between; align-items: center;
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-bottom: 1px solid var(--surface-alt);
+  }
+  .nav-logo {
+    display: flex; align-items: flex-end; gap: 10px;
+    text-decoration: none; font-size: 20px; font-weight: 600;
+    letter-spacing: -0.02em; color: var(--ink); line-height: 1;
+  }
+  .nav-logo .logo-pulse {
+    background: linear-gradient(90deg, #4f9cf9 0%, #7c3aed 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-family: 'Plus Jakarta Sans', var(--font);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+  }
+  .nav-links { display: flex; align-items: center; gap: 32px; }
+  .nav-links a {
+    text-decoration: none; color: var(--tertiary); font-size: 14px;
+    font-weight: 400; transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--ink); }
+  .nav-cta {
+    background: var(--brand) !important; color: var(--white) !important;
+    padding: 7px 18px !important; border-radius: 980px;
+    font-weight: 500 !important; font-size: 14px !important; transition: all 0.2s !important;
+  }
+  .nav-cta:hover { opacity: 0.88 !important; }
+
+  /* ─── HERO ─── */
+  .hero {
+    min-height: 100vh; display: flex; align-items: center;
+    padding: 96px 48px 80px; position: relative; overflow: hidden;
+  }
+  .hero-inner {
+    max-width: 1200px; margin: 0 auto; width: 100%;
+    display: grid; grid-template-columns: 1fr 1.2fr; gap: 80px; align-items: center;
+  }
+  .hero-content { position: relative; z-index: 2; }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    border: 1px solid var(--surface-alt); padding: 5px 14px;
+    border-radius: 980px; font-size: 12px; font-weight: 500;
+    color: var(--brand); letter-spacing: 0.02em;
+    margin-bottom: 28px; animation: fadeUp 0.6s ease-out both;
+  }
+  .hero-badge::before {
+    content: ''; width: 6px; height: 6px; border-radius: 50%;
+    background: var(--brand); animation: badgePulse 2s ease-in-out infinite;
+  }
+  @keyframes badgePulse {
+    0%, 100% { opacity: 1; } 50% { opacity: 0.3; }
+  }
+
+  h1 {
+    font-size: 52px; font-weight: 300; line-height: 1.07;
+    letter-spacing: -0.03em; color: var(--ink);
+    margin-bottom: 24px; animation: fadeUp 0.6s ease-out 0.1s both;
+  }
+  h1 .gradient-text { color: var(--brand); }
+  .hero-sub {
+    font-size: 18px; line-height: 1.6; color: var(--secondary);
+    font-weight: 300; max-width: 440px; margin-bottom: 36px;
+    animation: fadeUp 0.6s ease-out 0.2s both;
+  }
+  .hero-actions {
+    display: flex; gap: 12px;
+    animation: fadeUp 0.6s ease-out 0.3s both;
+  }
+  .btn-primary {
+    background: var(--brand); color: var(--white);
+    padding: 12px 24px; border: none; border-radius: var(--radius-sm);
+    font-family: var(--font); font-size: 15px; font-weight: 500;
+    cursor: pointer; transition: all 0.2s; text-decoration: none;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .btn-primary:hover { opacity: 0.88; }
+  .btn-secondary {
+    background: transparent; color: var(--brand);
+    padding: 12px 24px; border: 1px solid var(--brand-muted);
+    border-radius: var(--radius-sm); font-family: var(--font);
+    font-size: 15px; font-weight: 500; cursor: pointer;
+    transition: all 0.2s; text-decoration: none;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .btn-secondary:hover { border-color: var(--brand); }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ─── BROWSER FRAME ─── */
+  .hero-visual {
+    position: relative; z-index: 2; max-width: 100%; overflow: hidden;
+    animation: fadeUp 0.8s ease-out 0.4s both;
+  }
+  .browser-frame {
+    background: var(--ink); border-radius: 8px; overflow: hidden;
+    box-shadow: var(--shadow-lg);
+    transform: perspective(1000px) rotateY(-2deg) rotateX(1deg);
+    transition: transform 0.5s;
+  }
+  .browser-frame:hover { transform: perspective(1000px) rotateY(-0.5deg) rotateX(0.3deg); }
+  .browser-chrome {
+    background: #f0f0f0; padding: 10px 14px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .browser-dots { display: flex; gap: 6px; }
+  .browser-dots span { width: 10px; height: 10px; border-radius: 50%; }
+  .browser-dots span:nth-child(1) { background: #ff5f57; }
+  .browser-dots span:nth-child(2) { background: #febc2e; }
+  .browser-dots span:nth-child(3) { background: #28c840; }
+  .browser-url {
+    flex: 1; background: var(--white); border-radius: var(--radius-sm);
+    padding: 5px 12px; font-size: 11px; color: var(--tertiary);
+    display: flex; align-items: center; gap: 6px;
+  }
+  .browser-url .lock-icon { color: #28c840; font-size: 8px; }
+  .browser-body { display: flex; height: 440px; overflow: hidden; max-width: 100%; }
+
+  /* Sidebar */
+  .bd-sidebar {
+    width: 180px; min-width: 180px; background: var(--ink); padding: 14px; color: white;
+  }
+  .bd-sidebar-logo { font-size: 15px; font-weight: 600; color: var(--brand-muted); margin-bottom: 18px; letter-spacing: -0.02em; }
+  .bd-nav-item {
+    padding: 7px 10px; border-radius: var(--radius-sm); font-size: 11px;
+    color: rgba(255,255,255,0.45); display: flex; align-items: center; gap: 7px; margin-bottom: 2px;
+  }
+  .bd-nav-item.active { background: var(--brand); color: white; }
+  .bd-nav-section {
+    font-size: 9px; text-transform: uppercase; letter-spacing: 0.08em;
+    opacity: 0.3; font-weight: 500; margin: 14px 0 6px 10px;
+  }
+
+  /* Main content */
+  .bd-main { flex: 1; background: var(--surface-light); overflow: hidden; position: relative; }
+  .bd-scroll-area { height: 440px; overflow: hidden; }
+  .bd-scroll-content { animation: dashScroll 20s ease-in-out infinite; animation-delay: 2s; }
+  @keyframes dashScroll {
+    0% { transform: translateY(0); } 12% { transform: translateY(0); }
+    88% { transform: translateY(calc(-100% + 440px)); }
+    96% { transform: translateY(calc(-100% + 440px)); } 100% { transform: translateY(0); }
+  }
+  .bd-main::after {
+    content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 50px;
+    background: linear-gradient(transparent, var(--surface-light)); pointer-events: none; z-index: 1;
+  }
+  .bd-content { padding: 14px; }
+  .bd-topbar {
+    background: var(--white); padding: 12px 16px; border-radius: var(--radius);
+    margin-bottom: 12px; box-shadow: var(--shadow-sm);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .bd-topbar h2 { font-size: 15px; font-weight: 600; color: var(--ink); margin-bottom: 2px; letter-spacing: -0.01em; }
+  .bd-topbar .bd-date { font-size: 10px; color: var(--tertiary); }
+  .bd-topbar-right { display: flex; align-items: center; gap: 8px; }
+  .bd-select {
+    padding: 4px 10px; border: 1px solid var(--surface-alt); border-radius: var(--radius-sm);
+    font-size: 10px; background: var(--white); color: var(--ink); font-weight: 500;
+  }
+  .bd-avatar {
+    width: 24px; height: 24px; border-radius: 50%; background: var(--brand);
+    display: flex; align-items: center; justify-content: center;
+    color: white; font-size: 9px; font-weight: 500;
+  }
+  .bd-alert {
+    background: var(--negative); color: white; padding: 10px 14px;
+    border-radius: var(--radius); margin-bottom: 12px; display: flex; align-items: center; gap: 10px;
+  }
+  .bd-alert-icon { font-size: 14px; }
+  .bd-alert-text { flex: 1; }
+  .bd-alert-title { font-size: 11px; font-weight: 600; margin-bottom: 1px; }
+  .bd-alert-sub { font-size: 10px; opacity: 0.85; }
+  .bd-alert-btn {
+    background: white; color: var(--negative); border: none;
+    padding: 5px 10px; border-radius: var(--radius-sm);
+    font-size: 9px; font-weight: 600; cursor: pointer;
+  }
+  .bd-kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 12px; }
+  .bd-kpi {
+    background: var(--white); padding: 12px; border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+  }
+  .bd-kpi-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+  .bd-kpi-label { font-size: 9px; text-transform: uppercase; font-weight: 500; color: var(--tertiary); letter-spacing: 0.04em; }
+  .bd-kpi-icon { width: 24px; height: 24px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; font-size: 12px; }
+  .bd-kpi-icon.purple { background: #f3f0ff; }
+  .bd-kpi-icon.blue { background: var(--surface-alt); }
+  .bd-kpi-icon.green { background: #e8f5e9; }
+  .bd-kpi-icon.orange { background: #fff3e0; }
+  .bd-kpi-value { font-size: 22px; font-weight: 300; color: var(--ink); margin-bottom: 3px; letter-spacing: -0.02em; }
+  .bd-kpi-change { font-size: 10px; font-weight: 500; }
+  .bd-kpi-change.positive { color: var(--positive); }
+  .bd-kpi-change.negative { color: var(--negative); }
+  .bd-grid-row { display: grid; grid-template-columns: 1.6fr 1fr; gap: 10px; margin-bottom: 12px; }
+  .bd-card {
+    background: var(--white); padding: 14px; border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+  }
+  .bd-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+  .bd-card-title { font-size: 13px; font-weight: 600; color: var(--ink); letter-spacing: -0.01em; }
+  .bd-filters { display: flex; gap: 4px; }
+  .bd-filter-btn {
+    padding: 3px 8px; border: 1px solid var(--surface-alt); background: var(--white);
+    border-radius: var(--radius-sm); font-size: 9px; font-weight: 500;
+    color: var(--tertiary); cursor: pointer;
+  }
+  .bd-filter-btn.active { background: var(--brand); color: white; border-color: var(--brand); }
+  .bd-chart-bars { display: flex; align-items: flex-end; gap: 4px; height: 120px; padding-top: 4px; }
+  .bd-bar {
+    flex: 1; background: var(--brand); border-radius: 2px 2px 0 0;
+    min-height: 4px; position: relative; animation: bdBarGrow 1.2s ease-out both;
+  }
+  @keyframes bdBarGrow { from { height: 0 !important; } }
+  .bd-bar-label {
+    position: absolute; bottom: -16px; left: 50%; transform: translateX(-50%);
+    font-size: 7px; color: var(--tertiary); white-space: nowrap;
+  }
+  .bd-prop-item { border: 1px solid var(--surface-alt); border-radius: var(--radius); padding: 10px; margin-bottom: 8px; }
+  .bd-prop-item-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+  .bd-prop-name { font-size: 12px; font-weight: 600; color: var(--ink); }
+  .bd-prop-brand { font-size: 10px; color: var(--tertiary); margin-top: 1px; }
+  .bd-status { padding: 3px 8px; border-radius: var(--radius-sm); font-size: 9px; font-weight: 500; }
+  .bd-status.warning { background: #fff3cd; color: #856404; }
+  .bd-status.critical { background: #f8d7da; color: #721c24; }
+  .bd-prop-metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+  .bd-prop-m { text-align: center; background: var(--surface-light); border-radius: var(--radius-sm); padding: 5px; }
+  .bd-prop-m-label { font-size: 8px; text-transform: uppercase; color: var(--tertiary); font-weight: 500; margin-bottom: 2px; }
+  .bd-prop-m-value { font-size: 13px; font-weight: 600; color: var(--ink); }
+  .bd-comp-table { width: 100%; border-collapse: collapse; font-size: 10px; }
+  .bd-comp-table th {
+    text-align: left; padding: 8px 6px; font-size: 8px; text-transform: uppercase;
+    font-weight: 500; color: var(--tertiary); border-bottom: 1px solid var(--surface-alt);
+  }
+  .bd-comp-table td { padding: 9px 6px; border-bottom: 1px solid var(--surface-alt); color: var(--ink); }
+  .bd-comp-table .prop-cell { font-weight: 600; }
+  .bd-trend { display: inline-flex; align-items: center; padding: 2px 6px; border-radius: var(--radius-sm); font-size: 9px; font-weight: 600; }
+  .bd-trend.down { background: #f8d7da; color: #721c24; }
+  .bd-trend.up { background: #d4edda; color: #155724; }
+  .bd-calendar { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin-top: 10px; }
+  .bd-cal-day { aspect-ratio: 1; border-radius: var(--radius-sm); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 4px; }
+  .bd-cal-day-label { font-size: 7px; opacity: 0.7; margin-bottom: 2px; }
+  .bd-cal-day-occ { font-size: 11px; font-weight: 600; }
+  .bd-cal-day.high { background: #d4edda; color: #155724; }
+  .bd-cal-day.medium { background: #fff3cd; color: #856404; }
+  .bd-cal-day.low { background: #f8d7da; color: #721c24; }
+  .bd-cal-day.future { background: var(--surface-light); color: var(--tertiary); }
+
+  /* ─── PROOF STRIP ─── */
+  .proof-strip {
+    padding: 40px 48px; background: var(--white); text-align: center;
+    border-top: 1px solid var(--surface-alt); border-bottom: 1px solid var(--surface-alt);
+  }
+  .proof-strip p {
+    font-size: 11px; font-weight: 500; color: var(--tertiary);
+    text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 24px;
+  }
+  .proof-logos { display: flex; justify-content: center; gap: 48px; align-items: center; flex-wrap: wrap; }
+  .proof-logos svg { opacity: 0.35; filter: grayscale(100%); transition: all 0.3s; }
+  .proof-logos svg:hover { opacity: 0.7; filter: grayscale(0%); }
+  .proof-logo { font-weight: 600; font-size: 15px; color: var(--rule); }
+
+  /* ─── SECTIONS ─── */
+  .section-tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 13px; font-weight: 500; letter-spacing: 0.06em;
+    text-transform: uppercase; color: var(--brand); margin-bottom: 16px;
+  }
+  .section-tag::before { content: ''; width: 24px; height: 1px; background: var(--brand); }
+
+  /* ─── PROBLEM ─── */
+  .problem { padding: 96px 48px; max-width: 1200px; margin: 0 auto; }
+  .problem h2 {
+    font-size: 40px; font-weight: 300; line-height: 1.12;
+    letter-spacing: -0.025em; color: var(--ink); max-width: 580px; margin-bottom: 48px;
+  }
+  .problem-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .problem-card {
+    background: var(--white); padding: 32px; border-radius: var(--radius);
+    border: 1px solid var(--surface-alt); transition: all 0.3s;
+  }
+  .problem-card:hover { box-shadow: var(--shadow-md); border-color: var(--rule); }
+  .problem-icon {
+    width: 40px; height: 40px; border-radius: var(--radius-sm);
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 20px; font-size: 18px;
+  }
+  .problem-icon.purple { background: #f3f0ff; }
+  .problem-icon.blue { background: var(--surface-alt); }
+  .problem-icon.orange { background: #fff8f0; }
+  .problem-card h4 {
+    font-size: 17px; font-weight: 600; letter-spacing: -0.01em;
+    color: var(--ink); margin-bottom: 8px;
+  }
+  .problem-card p { font-size: 14px; line-height: 1.6; color: var(--secondary); }
+
+  /* ─── HOW IT WORKS ─── */
+  .how {
+    padding: 96px 48px; background: var(--ink); color: white; position: relative;
+  }
+  .how::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--brand), transparent);
+  }
+  .how-inner { max-width: 1200px; margin: 0 auto; }
+  .how .section-tag { color: var(--brand-muted); }
+  .how .section-tag::before { background: var(--brand-muted); }
+  .how h2 {
+    font-size: 40px; font-weight: 300; line-height: 1.12;
+    letter-spacing: -0.025em; max-width: 500px; margin-bottom: 56px; color: white;
+  }
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .step {
+    padding: 36px; border-radius: var(--radius);
+    border: 1px solid rgba(255,255,255,0.06); transition: all 0.3s;
+  }
+  .step:hover { border-color: rgba(255,255,255,0.12); }
+  .step-num {
+    font-size: 48px; font-weight: 300; color: rgba(83,58,253,0.25);
+    line-height: 1; letter-spacing: -0.03em; margin-bottom: 20px;
+  }
+  .step h4 { font-size: 17px; font-weight: 600; letter-spacing: -0.01em; margin-bottom: 10px; color: white; }
+  .step p { font-size: 14px; line-height: 1.6; color: rgba(255,255,255,0.4); }
+
+  /* ─── METRICS ─── */
+  .metrics-section { padding: 96px 48px; max-width: 1200px; margin: 0 auto; }
+  .metrics-section h2 {
+    font-size: 40px; font-weight: 300; line-height: 1.12;
+    letter-spacing: -0.025em; color: var(--ink); max-width: 480px; margin-bottom: 12px;
+  }
+  .section-sub { font-size: 16px; line-height: 1.6; color: var(--secondary); max-width: 460px; margin-bottom: 48px; font-weight: 300; }
+  .metrics-showcase { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .metric-showcase-card {
+    background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow-sm);
+    padding: 32px 24px; text-align: center; border: 1px solid var(--surface-alt);
+    transition: all 0.3s; position: relative; overflow: hidden;
+  }
+  .metric-showcase-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: var(--brand); transform: scaleX(0); transition: transform 0.3s;
+  }
+  .metric-showcase-card:hover::before { transform: scaleX(1); }
+  .metric-showcase-card:hover { box-shadow: var(--shadow-md); }
+  .m-icon {
+    width: 40px; height: 40px; border-radius: var(--radius-sm);
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 16px; font-size: 18px;
+  }
+  .m-icon.purple { background: #f3f0ff; }
+  .m-icon.blue { background: var(--surface-alt); }
+  .m-icon.green { background: #e8f5e9; }
+  .m-icon.orange { background: #fff8f0; }
+  .metric-showcase-card h4 { font-size: 17px; font-weight: 600; letter-spacing: -0.01em; color: var(--ink); margin-bottom: 6px; }
+  .metric-showcase-card p { font-size: 13px; color: var(--secondary); line-height: 1.55; }
+
+  /* ─── PROPERTY DETAIL ─── */
+  .property-section { padding: 96px 48px; background: var(--surface-light); }
+  .property-section-inner { max-width: 1200px; margin: 0 auto; }
+  .property-section h2 {
+    font-size: 40px; font-weight: 300; line-height: 1.12;
+    letter-spacing: -0.025em; color: var(--ink); max-width: 480px; margin-bottom: 12px;
+  }
+  .property-section .section-sub { margin-bottom: 40px; }
+  .property-browser {
+    background: var(--ink); border-radius: 8px; overflow: hidden;
+    box-shadow: var(--shadow-lg); max-width: 1000px; margin: 0 auto;
+  }
+  .pd-main { flex: 1; background: var(--surface-light); overflow: hidden; position: relative; }
+  .pd-scroll-area { height: 480px; overflow: hidden; }
+  .pd-scroll-content { animation: pdScroll 22s ease-in-out infinite; animation-delay: 3s; }
+  @keyframes pdScroll {
+    0% { transform: translateY(0); } 10% { transform: translateY(0); }
+    88% { transform: translateY(calc(-100% + 480px)); }
+    96% { transform: translateY(calc(-100% + 480px)); } 100% { transform: translateY(0); }
+  }
+  .pd-main::after {
+    content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 50px;
+    background: linear-gradient(transparent, var(--surface-light)); pointer-events: none; z-index: 1;
+  }
+  .pd-content { padding: 14px; }
+  .pd-breadcrumb { font-size: 11px; color: var(--tertiary); margin-bottom: 10px; }
+  .pd-breadcrumb a { color: var(--brand); text-decoration: none; }
+  .pd-prop-header {
+    background: var(--white); border-radius: var(--radius); padding: 16px;
+    margin-bottom: 12px; box-shadow: var(--shadow-sm);
+  }
+  .pd-prop-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+  .pd-prop-title-row { display: flex; align-items: center; gap: 10px; }
+  .pd-prop-icon { font-size: 18px; }
+  .pd-prop-title { font-size: 16px; font-weight: 600; color: var(--ink); letter-spacing: -0.01em; }
+  .pd-prop-subtitle { font-size: 10px; color: var(--tertiary); margin-top: 2px; }
+  .pd-prop-actions { display: flex; gap: 6px; }
+  .pd-action-btn { padding: 5px 10px; border-radius: var(--radius-sm); font-size: 10px; font-weight: 500; border: none; cursor: pointer; }
+  .pd-action-btn.secondary { background: var(--surface-light); color: var(--ink); border: 1px solid var(--surface-alt); }
+  .pd-action-btn.primary { background: var(--brand); color: white; }
+  .pd-pulse-row {
+    display: flex; align-items: center; gap: 14px;
+    background: var(--surface-light); border-radius: var(--radius); padding: 12px 14px;
+  }
+  .pd-pulse-circle {
+    width: 52px; height: 52px; min-width: 52px; border-radius: 50%;
+    background: conic-gradient(#f39c12 0deg 259deg, var(--surface-alt) 259deg 360deg);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .pd-pulse-inner {
+    width: 40px; height: 40px; border-radius: 50%; background: white;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; font-weight: 600; color: #f39c12;
+  }
+  .pd-pulse-status { font-size: 12px; font-weight: 600; color: var(--ink); margin-bottom: 2px; }
+  .pd-pulse-desc { font-size: 10px; color: var(--secondary); line-height: 1.5; }
+  .pd-alert {
+    background: #fffbf0; border-left: 3px solid #f39c12;
+    padding: 10px 14px; border-radius: var(--radius-sm); margin-bottom: 12px;
+  }
+  .pd-alert-title { font-size: 12px; font-weight: 600; color: var(--ink); margin-bottom: 3px; }
+  .pd-alert-text { font-size: 10px; color: var(--secondary); line-height: 1.5; }
+  .pd-kpi-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-bottom: 12px; }
+  .pd-kpi { background: var(--white); padding: 10px; border-radius: var(--radius); box-shadow: var(--shadow-sm); }
+  .pd-kpi-label { font-size: 9px; text-transform: uppercase; font-weight: 500; color: var(--tertiary); margin-bottom: 4px; }
+  .pd-kpi-value { font-size: 18px; font-weight: 300; color: var(--ink); margin-bottom: 1px; letter-spacing: -0.02em; }
+  .pd-kpi-sub { font-size: 9px; color: var(--tertiary); margin-bottom: 2px; }
+  .pd-kpi-change { font-size: 9px; font-weight: 500; }
+  .pd-kpi-change.positive { color: var(--positive); }
+  .pd-kpi-change.negative { color: var(--negative); }
+  .pd-calendar { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+  .pd-cal-header { text-align: center; font-size: 8px; font-weight: 500; color: var(--tertiary); text-transform: uppercase; padding: 4px 0; }
+  .pd-cal-day { border-radius: var(--radius-sm); padding: 5px 3px; text-align: center; }
+  .pd-cal-date { font-size: 9px; font-weight: 500; margin-bottom: 1px; }
+  .pd-cal-occ { font-size: 10px; font-weight: 600; }
+  .pd-cal-rooms { font-size: 7px; opacity: 0.75; }
+  .pd-cal-day.high { background: #d4edda; color: #155724; }
+  .pd-cal-day.medium { background: #fff3cd; color: #856404; }
+  .pd-cal-day.low { background: #f8d7da; color: #721c24; }
+  .pd-donut-wrap { display: flex; align-items: center; gap: 16px; }
+  .pd-donut {
+    width: 100px; height: 100px; min-width: 100px; border-radius: 50%;
+    background: conic-gradient(#3498db 0deg 130deg, #e74c3c 130deg 180deg, #f39c12 180deg 230deg, #9b59b6 230deg 280deg, var(--tertiary) 280deg 360deg);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .pd-donut-center { width: 64px; height: 64px; border-radius: 50%; background: white; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .pd-donut-label { font-size: 8px; color: var(--tertiary); }
+  .pd-donut-value { font-size: 16px; font-weight: 600; color: var(--ink); }
+  .pd-legend { flex: 1; display: flex; flex-direction: column; gap: 5px; }
+  .pd-legend-item { display: flex; align-items: center; justify-content: space-between; font-size: 10px; }
+  .pd-legend-label { display: flex; align-items: center; gap: 5px; color: var(--secondary); }
+  .pd-legend-dot { width: 8px; height: 8px; border-radius: 2px; }
+  .pd-legend-val { font-weight: 600; color: var(--ink); }
+  .pd-table { width: 100%; border-collapse: collapse; font-size: 10px; }
+  .pd-table th {
+    text-align: left; padding: 7px 5px; font-size: 8px; text-transform: uppercase;
+    font-weight: 500; color: var(--tertiary); border-bottom: 1px solid var(--surface-alt);
+  }
+  .pd-table td { padding: 7px 5px; border-bottom: 1px solid var(--surface-alt); color: var(--ink); }
+  .pd-insight-card {
+    background: var(--ink); color: white; padding: 14px;
+    border-radius: var(--radius); margin-top: 12px;
+  }
+  .pd-insight-title { font-size: 12px; font-weight: 600; margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
+  .pd-insight-text { font-size: 10px; line-height: 1.6; opacity: 0.7; }
+
+  /* ─── EMAIL SECTION ─── */
+  .email-section {
+    padding: 96px 48px; background: var(--white); border-top: 1px solid var(--surface-alt);
+  }
+  .email-inner {
+    max-width: 1200px; margin: 0 auto; display: grid;
+    grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
+  }
+  .email-content h2 {
+    font-size: 40px; font-weight: 300; line-height: 1.12;
+    letter-spacing: -0.025em; color: var(--ink); margin-bottom: 16px;
+  }
+  .email-content > p {
+    font-size: 16px; line-height: 1.6; color: var(--secondary); margin-bottom: 28px;
+    max-width: 400px; font-weight: 300;
+  }
+  .email-features { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+  .email-features li {
+    display: flex; align-items: flex-start; gap: 12px;
+    font-size: 14px; color: var(--secondary); line-height: 1.5;
+  }
+  .check-circle {
+    width: 20px; height: 20px; min-width: 20px; border-radius: 50%;
+    background: #e8f5e9; color: var(--positive);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; font-weight: 600; margin-top: 2px;
+  }
+
+  /* Phone frame */
+  .phone-frame {
+    width: 100%; max-width: 380px; margin: 0 auto;
+    background: var(--ink); border-radius: 40px; padding: 12px;
+    box-shadow: var(--shadow-lg); position: relative;
+  }
+  .phone-notch {
+    width: 100px; height: 24px; background: var(--ink);
+    border-radius: 0 0 14px 14px; position: absolute;
+    top: 0; left: 50%; transform: translateX(-50%); z-index: 3;
+  }
+  .phone-screen { background: var(--surface-light); border-radius: 30px; overflow: hidden; position: relative; }
+  .phone-status-bar { display: none; }
+  .phone-email-bar {
+    background: var(--white); padding: 10px 20px 12px;
+    border-bottom: 1px solid var(--surface-alt); position: sticky; top: 0; z-index: 2;
+  }
+  .phone-email-bar .email-from-row { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+  .phone-email-bar .email-avatar {
+    width: 32px; height: 32px; min-width: 32px; border-radius: 50%;
+    background: var(--brand); display: flex; align-items: center; justify-content: center;
+    color: white; font-weight: 600; font-size: 12px;
+  }
+  .phone-email-bar .email-sender { font-size: 14px; font-weight: 600; color: var(--ink); }
+  .phone-email-bar .email-time { font-size: 11px; color: var(--tertiary); }
+  .phone-email-bar .email-subject { font-size: 12px; color: var(--secondary); padding-left: 42px; }
+  .phone-scroll-area { height: 520px; overflow: hidden; position: relative; }
+  .phone-scroll-content { animation: emailScroll 18s ease-in-out infinite; animation-delay: 2s; }
+  @keyframes emailScroll {
+    0% { transform: translateY(0); } 15% { transform: translateY(0); }
+    85% { transform: translateY(calc(-100% + 520px)); }
+    95% { transform: translateY(calc(-100% + 520px)); } 100% { transform: translateY(0); }
+  }
+  .phone-scroll-area::after {
+    content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 50px;
+    background: linear-gradient(transparent, var(--surface-light)); pointer-events: none; z-index: 1;
+  }
+  .phone-home-bar { height: 24px; display: flex; align-items: center; justify-content: center; background: white; }
+  .phone-home-bar div { width: 100px; height: 4px; background: var(--rule); border-radius: 2px; }
+
+  /* Email content inside phone */
+  .pe-container { background: var(--white); margin: 10px; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-sm); }
+  .pe-header { background: var(--brand); color: white; padding: 20px 18px; }
+  .pe-header h3 { font-size: 17px; font-weight: 600; margin-bottom: 4px; letter-spacing: -0.01em; }
+  .pe-header .pe-sub { font-size: 12px; opacity: 0.85; margin-top: 3px; }
+  .pe-header .pe-date { font-size: 12px; opacity: 0.65; margin-top: 6px; }
+  .pe-summary { background: var(--ink); color: white; padding: 16px 18px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .pe-metric { text-align: center; padding: 6px 0; }
+  .pe-metric-label { font-size: 9px; text-transform: uppercase; letter-spacing: 0.08em; opacity: 0.5; font-weight: 500; margin-bottom: 3px; }
+  .pe-metric-value { font-size: 20px; font-weight: 300; line-height: 1.1; letter-spacing: -0.02em; }
+  .pe-metric-sub { font-size: 10px; opacity: 0.5; margin-top: 2px; }
+  .pe-section { padding: 16px 18px; }
+  .pe-alert { background: #fffbf0; border-left: 3px solid #f39c12; padding: 12px 14px; border-radius: var(--radius-sm); margin-bottom: 14px; }
+  .pe-alert.info { background: #f0f8ff; border-left-color: #3498db; }
+  .pe-alert-title { font-size: 13px; font-weight: 600; color: var(--ink); margin-bottom: 5px; }
+  .pe-alert-list { list-style: none; font-size: 11px; color: var(--secondary); line-height: 1.6; }
+  .pe-alert-list li { padding-left: 12px; position: relative; }
+  .pe-alert-list li::before { content: "•"; position: absolute; left: 0; font-weight: 600; }
+  .pe-section-title { font-size: 14px; font-weight: 600; color: var(--ink); margin-bottom: 12px; letter-spacing: -0.01em; }
+  .pe-property { border: 1px solid var(--surface-alt); border-radius: var(--radius); padding: 14px; margin-bottom: 14px; }
+  .pe-property.warning { border-left: 3px solid #f39c12; }
+  .pe-property.success { border-left: 3px solid var(--positive); }
+  .pe-prop-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+  .pe-prop-name { font-size: 14px; font-weight: 600; color: var(--ink); }
+  .pe-prop-code { font-size: 10px; color: var(--tertiary); margin-top: 2px; }
+  .pe-brand-badge { padding: 3px 8px; border-radius: var(--radius-sm); font-size: 9px; font-weight: 600; color: white; }
+  .pe-brand-badge.hilton { background: #003f87; }
+  .pe-brand-badge.ihg { background: #006341; }
+  .pe-prop-metrics { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 10px; }
+  .pe-pm { text-align: center; }
+  .pe-pm-label { font-size: 9px; text-transform: uppercase; font-weight: 500; color: var(--tertiary); margin-bottom: 2px; }
+  .pe-pm-value { font-size: 16px; font-weight: 300; color: var(--ink); letter-spacing: -0.02em; }
+  .pe-pm-sub { font-size: 9px; color: var(--tertiary); margin-top: 1px; }
+  .pe-prop-insight { background: var(--surface-light); padding: 10px 12px; border-radius: var(--radius-sm); font-size: 11px; color: var(--secondary); line-height: 1.5; display: flex; align-items: start; gap: 8px; }
+  .pe-prop-insight span:first-child { font-size: 14px; flex-shrink: 0; }
+  .pe-comparison { background: var(--surface-light); padding: 14px; border-radius: var(--radius); margin-bottom: 14px; }
+  .pe-comp-title { font-size: 12px; font-weight: 600; color: var(--ink); margin-bottom: 10px; }
+  .pe-comp-table { width: 100%; border-collapse: collapse; font-size: 11px; }
+  .pe-comp-table th { text-align: left; padding: 6px 5px; font-size: 9px; color: var(--tertiary); text-transform: uppercase; font-weight: 500; border-bottom: 1px solid var(--rule); }
+  .pe-comp-table td { padding: 8px 5px; border-bottom: 1px solid var(--surface-alt); font-size: 11px; color: var(--ink); }
+  .pe-comp-table tr:last-child td { border-bottom: none; }
+  .pe-rank { display: inline-block; width: 18px; height: 18px; border-radius: 50%; text-align: center; line-height: 18px; font-size: 9px; font-weight: 600; }
+  .pe-rank.gold { background: #ffd700; color: #856404; }
+  .pe-rank.silver { background: #c0c0c0; color: #495057; }
+  .pe-action { background: var(--surface-light); padding: 10px 12px; border-radius: var(--radius-sm); margin-bottom: 8px; }
+  .pe-action-title { font-size: 12px; font-weight: 600; color: var(--ink); margin-bottom: 3px; }
+  .pe-action-text { font-size: 11px; color: var(--secondary); line-height: 1.5; }
+  .pe-cta {
+    display: block; margin: 0 18px 18px; padding: 12px;
+    background: var(--brand); color: white; text-align: center;
+    text-decoration: none; border-radius: var(--radius-sm); font-weight: 500; font-size: 13px;
+  }
+  .pe-footer { background: var(--surface-light); padding: 14px 18px; text-align: center; font-size: 10px; color: var(--tertiary); }
+  .pe-footer a { color: var(--brand); text-decoration: none; }
+
+  /* ─── CTA ─── */
+  .cta-section { padding: 120px 48px; text-align: center; position: relative; overflow: hidden; }
+  .cta-section h2 {
+    font-size: 48px; font-weight: 300; line-height: 1.07;
+    letter-spacing: -0.03em; color: var(--ink); margin-bottom: 20px; position: relative;
+  }
+  .cta-section > p {
+    font-size: 17px; color: var(--secondary); max-width: 440px; margin: 0 auto 40px;
+    line-height: 1.6; font-weight: 300;
+  }
+  .cta-actions { display: flex; justify-content: center; gap: 12px; }
+
+  /* ─── FOOTER ─── */
+  footer { padding: 32px 48px; border-top: 1px solid var(--surface-alt); }
+  .footer-inner {
+    max-width: 1200px; margin: 0 auto; width: 100%;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .footer-logo {
+    display: flex; align-items: flex-end; gap: 8px; font-size: 20px; font-weight: 800;
+    font-family: 'Plus Jakarta Sans', var(--font); letter-spacing: -0.03em; color: var(--ink); line-height: 1;
+  }
+  .footer-logo .logo-pulse {
+    background: linear-gradient(90deg, #4f9cf9 0%, #7c3aed 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  }
+  .footer-right { font-size: 13px; color: var(--tertiary); }
+
+  /* ─── PULSE DIVIDER ─── */
+  .pulse-divider { width: 100%; height: 50px; overflow: hidden; }
+  .pulse-divider svg { width: 100%; height: 100%; }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 1024px) {
+    .hero-inner { grid-template-columns: 1fr; gap: 48px; }
+    .browser-frame { transform: none; }
+    .browser-frame:hover { transform: none; }
+    .bd-sidebar { display: none; }
+    .problem-grid, .steps { grid-template-columns: 1fr; }
+    .metrics-showcase { grid-template-columns: repeat(2, 1fr); }
+    .email-inner { grid-template-columns: 1fr; }
+    .property-browser { max-width: 100%; }
+  }
+  @media (max-width: 640px) {
+    nav { padding: 0 16px; }
+    .nav-links a:not(.nav-cta) { display: none; }
+    .hero { padding: 80px 16px 40px; }
+    h1 { font-size: 36px; }
+    .hero-sub { font-size: 16px; }
+    .problem, .metrics-section { padding: 72px 16px; }
+    .how { padding: 72px 16px; }
+    .email-section, .property-section { padding: 72px 16px; }
+    .cta-section { padding: 80px 16px; }
+    .problem h2, .how h2, .email-content h2, .metrics-section h2, .property-section h2 { font-size: 30px; }
+    .cta-section h2 { font-size: 34px; }
+    .section-sub { font-size: 14px; }
+    .metrics-showcase { grid-template-columns: 1fr 1fr; }
+    .hero-actions { flex-direction: column; }
+    .btn-primary, .btn-secondary { width: 100%; justify-content: center; }
+    .footer-inner { flex-direction: column; gap: 12px; text-align: center; }
+    .browser-body { height: 340px; }
+    .bd-scroll-area { height: 340px; }
+    .bd-kpi-grid { grid-template-columns: repeat(2, 1fr); }
+    .bd-grid-row { grid-template-columns: 1fr; }
+    .bd-comp-table th:nth-child(5), .bd-comp-table td:nth-child(5),
+    .bd-comp-table th:nth-child(6), .bd-comp-table td:nth-child(6) { display: none; }
+    .bd-bar-label { display: none; }
+    .browser-url { font-size: 9px; }
+    .prop-bar-name { width: 70px; min-width: 70px; font-size: 10px; }
+    .pd-scroll-area { height: 360px; }
+    .pd-kpi-grid { grid-template-columns: repeat(2, 1fr); }
+    .pd-prop-top { flex-direction: column; align-items: flex-start; gap: 8px; }
+    .pd-prop-actions { align-self: flex-start; }
+    .pd-calendar { gap: 2px; }
+    .pd-cal-rooms { display: none; }
+    .pd-cal-date, .pd-cal-occ, .pd-cal-header { font-size: 7px; }
+    .pd-donut-wrap { flex-direction: column; align-items: center; }
+    .pd-table th:nth-child(5), .pd-table td:nth-child(5),
+    .pd-table th:nth-child(6), .pd-table td:nth-child(6) { display: none; }
+    .phone-frame { max-width: 100%; }
+    .phone-scroll-area { height: 420px; }
+    .pe-prop-metrics { grid-template-columns: repeat(2, 1fr); }
+    .pe-summary { grid-template-columns: repeat(2, 1fr); }
+    .proof-logos { gap: 20px 28px; }
+    .proof-logos svg { width: auto; height: 24px; }
+    .bd-card { overflow-x: auto; }
+  }
+</style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#" class="nav-logo">
+      <svg width="28" height="28" viewBox="0 0 44 44" fill="none">
+        <defs>
+          <linearGradient id="nav-bar-grad" x1="0.5" y1="1" x2="0.5" y2="0">
+            <stop offset="0%" stop-color="#4f9cf9"/>
+            <stop offset="100%" stop-color="#7c3aed" stop-opacity="0.85"/>
+          </linearGradient>
+        </defs>
+        <rect x="18" y="6" width="8" height="36" rx="2" fill="url(#nav-bar-grad)"/>
+        <rect x="8" y="16" width="8" height="26" rx="2" fill="#4f9cf9" opacity="0.55"/>
+        <rect x="28" y="16" width="8" height="26" rx="2" fill="#4f9cf9" opacity="0.55"/>
+        <path d="M4,42 Q22,34 40,42" stroke="#4f9cf9" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.5"/>
+      </svg>
+      <span class="logo-pulse">pulse</span>
+    </a>
+    <div class="nav-links">
+      <a href="#problem">Why Pulse</a>
+      <a href="#how">How It Works</a>
+      <a href="#metrics">Metrics</a>
+      <a href="#cta" class="nav-cta">Get Early Access</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="hero-content">
+        <div class="hero-badge">Built for Portfolio Owners</div>
+        <h1>The vital signs of your hotel portfolio, <span class="gradient-text">at a glance.</span></h1>
+        <p class="hero-sub">Pulse gives multi-property hotel owners the executive-level intelligence they need to stop operating and start growing. Your ADR, RevPAR, occupancy, and revenue — consolidated, contextualized, delivered.</p>
+        <div class="hero-actions">
+          <a href="#cta" class="btn-primary">
+            Get Early Access
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+          <a href="#how" class="btn-secondary">See How It Works</a>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="browser-frame">
+          <div class="browser-chrome">
+            <div class="browser-dots"><span></span><span></span><span></span></div>
+            <div class="browser-url"><span class="lock-icon">●</span> app.getpulse.io/dashboard</div>
+          </div>
+          <div class="browser-body">
+            <!-- Sidebar -->
+            <div class="bd-sidebar">
+              <div class="bd-sidebar-logo">Pulse</div>
+              <div class="bd-nav-item active">Dashboard</div>
+              <div class="bd-nav-item">Properties</div>
+              <div class="bd-nav-item">Analytics</div>
+              <div class="bd-nav-item">Alerts</div>
+              <div class="bd-nav-section">My Properties</div>
+              <div class="bd-nav-item">Hampton Inn Pittsburgh</div>
+              <div class="bd-nav-item">Holiday Inn Exp. Fremont</div>
+              <div class="bd-nav-section">Settings</div>
+              <div class="bd-nav-item">Preferences</div>
+              <div class="bd-nav-item">Account</div>
+              <div class="bd-nav-item">Help & Support</div>
+            </div>
+            <!-- Main scrolling area -->
+            <div class="bd-main">
+              <div class="bd-scroll-area">
+                <div class="bd-scroll-content">
+                  <div class="bd-content">
+                    <!-- Top bar -->
+                    <div class="bd-topbar">
+                      <div>
+                        <h2>Portfolio Dashboard</h2>
+                        <div class="bd-date">Thursday, December 26, 2024 • Last updated: 7:00 AM</div>
+                      </div>
+                      <div class="bd-topbar-right">
+                        <div class="bd-select">Last 7 Days ▾</div>
+                        <div class="bd-avatar">JH</div>
+                      </div>
+                    </div>
+
+                    <!-- Alert -->
+                    <div class="bd-alert">
+                      <div class="bd-alert-icon"></div>
+                      <div class="bd-alert-text">
+                        <div class="bd-alert-title">2 Properties Need Attention</div>
+                        <div class="bd-alert-sub">Holiday Inn Express Fremont at critical 24.7% occupancy</div>
+                      </div>
+                      <button class="bd-alert-btn">View Details</button>
+                    </div>
+
+                    <!-- KPIs -->
+                    <div class="bd-kpi-grid">
+                      <div class="bd-kpi">
+                        <div class="bd-kpi-header">
+                          <div class="bd-kpi-label">Portfolio Occ</div>
+                          <div class="bd-kpi-icon purple"></div>
+                        </div>
+                        <div class="bd-kpi-value">34.8%</div>
+                        <div class="bd-kpi-change negative">▼ 12% vs last week</div>
+                      </div>
+                      <div class="bd-kpi">
+                        <div class="bd-kpi-header">
+                          <div class="bd-kpi-label">Average ADR</div>
+                          <div class="bd-kpi-icon blue"></div>
+                        </div>
+                        <div class="bd-kpi-value">$119</div>
+                        <div class="bd-kpi-change positive">▲ $3 vs MTD avg</div>
+                      </div>
+                      <div class="bd-kpi">
+                        <div class="bd-kpi-header">
+                          <div class="bd-kpi-label">Total Revenue</div>
+                          <div class="bd-kpi-icon green"></div>
+                        </div>
+                        <div class="bd-kpi-value">$6.5K</div>
+                        <div class="bd-kpi-change negative">▼ 18% vs last week</div>
+                      </div>
+                      <div class="bd-kpi">
+                        <div class="bd-kpi-header">
+                          <div class="bd-kpi-label">RevPAR</div>
+                          <div class="bd-kpi-icon orange"></div>
+                        </div>
+                        <div class="bd-kpi-value">$42</div>
+                        <div class="bd-kpi-change negative">▼ 15% vs last week</div>
+                      </div>
+                    </div>
+
+                    <!-- Chart + Properties -->
+                    <div class="bd-grid-row">
+                      <div class="bd-card">
+                        <div class="bd-card-header">
+                          <div class="bd-card-title">30-Day Occupancy Trend</div>
+                          <div class="bd-filters">
+                            <span class="bd-filter-btn active">Occupancy</span>
+                            <span class="bd-filter-btn">ADR</span>
+                            <span class="bd-filter-btn">RevPAR</span>
+                          </div>
+                        </div>
+                        <div class="bd-chart-bars">
+                          <div class="bd-bar" style="height:65%; animation-delay:0.1s"><span class="bd-bar-label">Dec 1</span></div>
+                          <div class="bd-bar" style="height:68%; animation-delay:0.15s"><span class="bd-bar-label">Dec 2</span></div>
+                          <div class="bd-bar" style="height:72%; animation-delay:0.2s"><span class="bd-bar-label">Dec 3</span></div>
+                          <div class="bd-bar" style="height:58%; animation-delay:0.25s"><span class="bd-bar-label">Dec 4</span></div>
+                          <div class="bd-bar" style="height:62%; animation-delay:0.3s"><span class="bd-bar-label">Dec 5</span></div>
+                          <div class="bd-bar" style="height:78%; animation-delay:0.35s"><span class="bd-bar-label">Dec 6</span></div>
+                          <div class="bd-bar" style="height:85%; animation-delay:0.4s"><span class="bd-bar-label">Dec 7</span></div>
+                          <div class="bd-bar" style="height:82%; animation-delay:0.45s"><span class="bd-bar-label">Dec 8</span></div>
+                          <div class="bd-bar" style="height:55%; animation-delay:0.5s"><span class="bd-bar-label">Dec 9</span></div>
+                          <div class="bd-bar" style="height:48%; animation-delay:0.55s"><span class="bd-bar-label">Dec 10</span></div>
+                          <div class="bd-bar" style="height:52%; animation-delay:0.6s"><span class="bd-bar-label">Dec 11</span></div>
+                          <div class="bd-bar" style="height:35%; background:#e74c3c; animation-delay:0.65s"><span class="bd-bar-label">Today</span></div>
+                        </div>
+                      </div>
+                      <div class="bd-card">
+                        <div class="bd-card-header">
+                          <div class="bd-card-title">Properties</div>
+                        </div>
+                        <div class="bd-prop-item">
+                          <div class="bd-prop-item-header">
+                            <div>
+                              <div class="bd-prop-name">Hampton Inn</div>
+                              <div class="bd-prop-brand">Pittsburgh West • Hilton</div>
+                            </div>
+                            <span class="bd-status warning">Warning</span>
+                          </div>
+                          <div class="bd-prop-metrics">
+                            <div class="bd-prop-m"><div class="bd-prop-m-label">Occ</div><div class="bd-prop-m-value">44.9%</div></div>
+                            <div class="bd-prop-m"><div class="bd-prop-m-label">ADR</div><div class="bd-prop-m-value">$118</div></div>
+                            <div class="bd-prop-m"><div class="bd-prop-m-label">Rev</div><div class="bd-prop-m-value">$4.2K</div></div>
+                          </div>
+                        </div>
+                        <div class="bd-prop-item">
+                          <div class="bd-prop-item-header">
+                            <div>
+                              <div class="bd-prop-name">Holiday Inn Express</div>
+                              <div class="bd-prop-brand">Fremont • IHG</div>
+                            </div>
+                            <span class="bd-status critical">Critical</span>
+                          </div>
+                          <div class="bd-prop-metrics">
+                            <div class="bd-prop-m"><div class="bd-prop-m-label">Occ</div><div class="bd-prop-m-value">24.7%</div></div>
+                            <div class="bd-prop-m"><div class="bd-prop-m-label">ADR</div><div class="bd-prop-m-value">$120</div></div>
+                            <div class="bd-prop-m"><div class="bd-prop-m-label">Rev</div><div class="bd-prop-m-value">$2.3K</div></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Comparison table -->
+                    <div class="bd-card" style="margin-bottom:12px">
+                      <div class="bd-card-header">
+                        <div class="bd-card-title">Property Performance Comparison</div>
+                        <div class="bd-filters">
+                          <span class="bd-filter-btn active">Yesterday</span>
+                          <span class="bd-filter-btn">This Week</span>
+                          <span class="bd-filter-btn">This Month</span>
+                          <span class="bd-filter-btn">YTD</span>
+                        </div>
+                      </div>
+                      <table class="bd-comp-table">
+                        <thead>
+                          <tr>
+                            <th>Property</th>
+                            <th>Occupancy</th>
+                            <th>ADR</th>
+                            <th>RevPAR</th>
+                            <th>Revenue</th>
+                            <th>vs Last Wk</th>
+                            <th>Status</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td class="prop-cell">Hampton Inn</td>
+                            <td>44.9%</td>
+                            <td>$118</td>
+                            <td>$53</td>
+                            <td>$4,209</td>
+                            <td><span class="bd-trend down">▼ 8%</span></td>
+                            <td><span class="bd-status warning">Warning</span></td>
+                          </tr>
+                          <tr>
+                            <td class="prop-cell">Holiday Inn Exp.</td>
+                            <td>24.7%</td>
+                            <td>$120</td>
+                            <td>$32</td>
+                            <td>$2,280</td>
+                            <td><span class="bd-trend down">▼ 22%</span></td>
+                            <td><span class="bd-status critical">Critical</span></td>
+                          </tr>
+                          <tr style="background:#f8f9fa; font-weight:600">
+                            <td class="prop-cell">Portfolio Total</td>
+                            <td>34.8%</td>
+                            <td>$119</td>
+                            <td>$43</td>
+                            <td>$6,489</td>
+                            <td><span class="bd-trend down">▼ 15%</span></td>
+                            <td>—</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+
+                    <!-- Forecast calendar -->
+                    <div class="bd-card">
+                      <div class="bd-card-header">
+                        <div class="bd-card-title">Next 7 Days — Booking Outlook</div>
+                      </div>
+                      <div class="bd-calendar">
+                        <div class="bd-cal-day future"><div class="bd-cal-day-label">Dec 27</div><div class="bd-cal-day-occ">42%</div></div>
+                        <div class="bd-cal-day future"><div class="bd-cal-day-label">Dec 28</div><div class="bd-cal-day-occ">38%</div></div>
+                        <div class="bd-cal-day future"><div class="bd-cal-day-label">Dec 29</div><div class="bd-cal-day-occ">35%</div></div>
+                        <div class="bd-cal-day future"><div class="bd-cal-day-label">Dec 30</div><div class="bd-cal-day-occ">48%</div></div>
+                        <div class="bd-cal-day medium"><div class="bd-cal-day-label">Dec 31</div><div class="bd-cal-day-occ">72%</div></div>
+                        <div class="bd-cal-day high"><div class="bd-cal-day-label">Jan 1</div><div class="bd-cal-day-occ">85%</div></div>
+                        <div class="bd-cal-day medium"><div class="bd-cal-day-label">Jan 2</div><div class="bd-cal-day-occ">68%</div></div>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROOF STRIP -->
+  <div class="proof-strip">
+    <p>Works with all major hotel brands</p>
+    <div class="proof-logos">
+      <!-- Choice Hotels -->
+      <svg width="140" height="36" viewBox="0 0 140 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="0" y="6" width="24" height="24" rx="4" fill="#0072CE"/>
+        <text x="6" y="24" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif" font-size="14" font-weight="800" fill="white">C</text>
+        <text x="30" y="24" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif" font-size="15" font-weight="700" fill="#0072CE">Choice</text>
+        <text x="82" y="24" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif" font-size="15" font-weight="400" fill="#7f8c8d">Hotels</text>
+      </svg>
+      <!-- Wyndham -->
+      <svg width="130" height="36" viewBox="0 0 130 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <text x="0" y="24" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif" font-size="16" font-weight="700" fill="#1B3C6B" letter-spacing="0.5">WYNDHAM</text>
+        <rect x="0" y="28" width="105" height="2" rx="1" fill="#1B3C6B" opacity="0.3"/>
+      </svg>
+      <!-- Best Western -->
+      <svg width="150" height="36" viewBox="0 0 150 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="14" cy="18" r="12" fill="none" stroke="#003B73" stroke-width="2.5"/>
+        <text x="8" y="23" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif" font-size="12" font-weight="800" fill="#003B73">B</text>
+        <text x="30" y="20" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif" font-size="11" font-weight="700" fill="#003B73" letter-spacing="0.5">BEST</text>
+        <text x="30" y="30" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif" font-size="11" font-weight="700" fill="#D4A44E" letter-spacing="0.5">WESTERN</text>
+      </svg>
+      <!-- IHG -->
+      <svg width="60" height="36" viewBox="0 0 60 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <text x="0" y="25" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif" font-size="22" font-weight="700" fill="#006341" letter-spacing="1">IHG</text>
+      </svg>
+      <!-- Marriott -->
+      <svg width="120" height="36" viewBox="0 0 120 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <text x="0" y="24" font-family="Georgia,Times,'Times New Roman',serif" font-size="18" font-weight="400" fill="#8C1D40" letter-spacing="1">Marriott</text>
+        <text x="0" y="33" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif" font-size="7" font-weight="600" fill="#8C1D40" letter-spacing="2">INTERNATIONAL</text>
+      </svg>
+      <!-- Hilton -->
+      <svg width="90" height="36" viewBox="0 0 90 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <text x="0" y="24" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif" font-size="18" font-weight="700" fill="#104C97" letter-spacing="2">HILTON</text>
+      </svg>
+    </div>
+  </div>
+
+  <!-- PROBLEM -->
+  <section class="problem" id="problem">
+    <h2>Enterprise tools weren't built for you. Spreadsheets don't scale.</h2>
+    <div class="problem-grid">
+      <div class="problem-card">
+        <div class="problem-icon purple"></div>
+        <h4>Drowning in PDF reports</h4>
+        <p>Night audit reports, brand reports, property data — scattered across inboxes and portals. You shouldn't need an analyst to read your own numbers.</p>
+      </div>
+      <div class="problem-card">
+        <div class="problem-icon blue"></div>
+        <h4>Tools built for chains, not you</h4>
+        <p>Enterprise platforms charge thousands and require training. You need something that works the moment you open it.</p>
+      </div>
+      <div class="problem-card">
+        <div class="problem-icon orange"></div>
+        <h4>One person holds all the knowledge</h4>
+        <p>Every family has that one person everyone calls for the numbers. That's a risk, not a strategy. Pulse gives everyone the same view.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PULSE LINE -->
+  <div class="pulse-divider">
+    <svg viewBox="0 0 1200 50" preserveAspectRatio="none">
+      <path d="M0,25 L350,25 L380,8 L400,42 L420,15 L440,35 L460,25 L1200,25"
+        fill="none" stroke="#667eea" stroke-width="1.5" opacity="0.15">
+        <animate attributeName="stroke-dashoffset" from="2400" to="0" dur="2.5s" fill="freeze"/>
+        <animate attributeName="stroke-dasharray" values="0 2400;2400 0" dur="2.5s" fill="freeze"/>
+      </path>
+    </svg>
+  </div>
+
+  <!-- HOW IT WORKS -->
+  <section class="how" id="how">
+    <div class="how-inner">
+      <h2>Ten minutes to set up. Zero minutes a day after that.</h2>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">01</div>
+          <h4>Sign up and get your Pulse email</h4>
+          <p>Create your account, add your properties, and we'll assign you a unique Pulse email address. We'll walk you through setting up CSV report scheduling — takes about 10 minutes per property.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">02</div>
+          <h4>Forward your night audit reports</h4>
+          <p>Add your Pulse email to your brand's night audit report schedule. Once reports start arriving, Pulse automatically parses, normalizes, and contextualizes your data across every property.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">03</div>
+          <h4>That's it. Insights come to you.</h4>
+          <p>Every morning you'll get a daily email with your portfolio's vital signs — before your first cup of coffee. Click through to the full dashboard anytime you want to dig deeper. No daily work required.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- METRICS -->
+  <section class="metrics-section" id="metrics">
+    <h2>Four metrics. Every property. One view.</h2>
+    <p class="section-sub">Every hotel owner tracks these metrics. Pulse shows you what they actually mean across your whole portfolio.</p>
+    <div class="metrics-showcase">
+      <div class="metric-showcase-card">
+        <div class="m-icon purple"></div>
+        <h4>ADR</h4>
+        <p>Average Daily Rate across properties. See which hotels are pricing above or below market.</p>
+      </div>
+      <div class="metric-showcase-card">
+        <div class="m-icon blue"></div>
+        <h4>RevPAR</h4>
+        <p>Revenue per available room — the true pulse of performance. Compared across your portfolio and competitors.</p>
+      </div>
+      <div class="metric-showcase-card">
+        <div class="m-icon green"></div>
+        <h4>Occupancy</h4>
+        <p>Fill rates with historical context. Spot seasonal patterns before they hit your bottom line.</p>
+      </div>
+      <div class="metric-showcase-card">
+        <div class="m-icon orange"></div>
+        <h4>Revenue</h4>
+        <p>Daily, weekly, monthly — consolidated. See the total picture without opening four different systems.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROPERTY DETAIL -->
+  <section class="property-section" id="property-detail">
+    <div class="property-section-inner">
+      <h2>Click any property. Get the full story.</h2>
+      <p class="section-sub">From the portfolio view, tap any property to see the full picture — occupancy forecast, channel mix, daily breakdowns, and AI-powered recommendations.</p>
+
+      <div class="property-browser">
+        <div class="browser-chrome">
+          <div class="browser-dots"><span></span><span></span><span></span></div>
+          <div class="browser-url"><span class="lock-icon">●</span> app.getpulse.io/property/hampton-inn-pittsburgh</div>
+        </div>
+        <div class="browser-body">
+          <!-- Sidebar -->
+          <div class="bd-sidebar">
+            <div class="bd-sidebar-logo">Pulse</div>
+            <div class="bd-nav-item">Dashboard</div>
+            <div class="bd-nav-item">Properties</div>
+            <div class="bd-nav-item">Analytics</div>
+            <div class="bd-nav-item">Alerts</div>
+            <div class="bd-nav-section">My Properties</div>
+            <div class="bd-nav-item active">Hampton Inn Pittsburgh</div>
+            <div class="bd-nav-item">Holiday Inn Exp. Fremont</div>
+            <div class="bd-nav-section">Settings</div>
+            <div class="bd-nav-item">Preferences</div>
+            <div class="bd-nav-item">Account</div>
+          </div>
+          <!-- Main scrolling area -->
+          <div class="pd-main">
+            <div class="pd-scroll-area">
+              <div class="pd-scroll-content">
+                <div class="pd-content">
+
+                  <!-- Breadcrumb -->
+                  <div class="pd-breadcrumb">
+                    <a href="#">Dashboard</a> › Hampton Inn Pittsburgh West
+                  </div>
+
+                  <!-- Property Header -->
+                  <div class="pd-prop-header">
+                    <div class="pd-prop-top">
+                      <div class="pd-prop-title-row">
+                        <span class="pd-prop-icon"></span>
+                        <div>
+                          <div class="pd-prop-title">Hampton Inn Pittsburgh West</div>
+                          <div class="pd-prop-subtitle">PITWM • Hilton Brand • 69 Total Rooms</div>
+                        </div>
+                      </div>
+                      <div class="pd-prop-actions">
+                        <button class="pd-action-btn secondary"> Contact Manager</button>
+                        <button class="pd-action-btn primary">View Reports</button>
+                      </div>
+                    </div>
+                    <div class="pd-pulse-row">
+                      <div class="pd-pulse-circle">
+                        <div class="pd-pulse-inner">72</div>
+                      </div>
+                      <div>
+                        <div class="pd-pulse-status"> Needs Attention</div>
+                        <div class="pd-pulse-desc">Occupancy at 44.9% is below typical Saturday performance. MTD occupancy is stronger at 50.2%. Consider weekend promotion strategy.</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Alert -->
+                  <div class="pd-alert">
+                    <div class="pd-alert-title"> Recommended Action</div>
+                    <div class="pd-alert-text">Saturday occupancy is 15% below your 4-week average. Review weekend rates and consider launching a local promotion for next weekend.</div>
+                  </div>
+
+                  <!-- KPIs -->
+                  <div class="pd-kpi-grid">
+                    <div class="pd-kpi">
+                      <div class="pd-kpi-label">Occupancy</div>
+                      <div class="pd-kpi-value">44.9%</div>
+                      <div class="pd-kpi-sub">31 of 69 rooms</div>
+                      <div class="pd-kpi-change negative">▼ 8% vs last wk</div>
+                    </div>
+                    <div class="pd-kpi">
+                      <div class="pd-kpi-label">ADR</div>
+                      <div class="pd-kpi-value">$118</div>
+                      <div class="pd-kpi-sub">Avg daily rate</div>
+                      <div class="pd-kpi-change positive">▲ $2 vs MTD</div>
+                    </div>
+                    <div class="pd-kpi">
+                      <div class="pd-kpi-label">RevPAR</div>
+                      <div class="pd-kpi-value">$53</div>
+                      <div class="pd-kpi-sub">Per avail room</div>
+                      <div class="pd-kpi-change negative">▼ 12% vs LY</div>
+                    </div>
+                    <div class="pd-kpi">
+                      <div class="pd-kpi-label">Revenue</div>
+                      <div class="pd-kpi-value">$4.2K</div>
+                      <div class="pd-kpi-sub">Yesterday's total</div>
+                      <div class="pd-kpi-change negative">▼ 18% vs last wk</div>
+                    </div>
+                    <div class="pd-kpi">
+                      <div class="pd-kpi-label">Guests</div>
+                      <div class="pd-kpi-value">51</div>
+                      <div class="pd-kpi-sub">36 adults, 15 kids</div>
+                      <div class="pd-kpi-change">21 stayovers</div>
+                    </div>
+                  </div>
+
+                  <!-- Charts row -->
+                  <div class="bd-grid-row">
+                    <div class="bd-card">
+                      <div class="bd-card-header">
+                        <div class="bd-card-title">30-Day Performance</div>
+                        <div class="bd-filters">
+                          <span class="bd-filter-btn active">Occupancy</span>
+                          <span class="bd-filter-btn">ADR</span>
+                          <span class="bd-filter-btn">Revenue</span>
+                        </div>
+                      </div>
+                      <div class="bd-chart-bars">
+                        <div class="bd-bar" style="height:72%; animation-delay:0.1s"><span class="bd-bar-label">Dec 1</span></div>
+                        <div class="bd-bar" style="height:68%; animation-delay:0.15s"><span class="bd-bar-label">Dec 5</span></div>
+                        <div class="bd-bar" style="height:85%; animation-delay:0.2s"><span class="bd-bar-label">Dec 10</span></div>
+                        <div class="bd-bar" style="height:82%; animation-delay:0.25s"><span class="bd-bar-label">Dec 15</span></div>
+                        <div class="bd-bar" style="height:78%; animation-delay:0.3s"><span class="bd-bar-label">Dec 20</span></div>
+                        <div class="bd-bar" style="height:52%; animation-delay:0.35s"><span class="bd-bar-label">Dec 23</span></div>
+                        <div class="bd-bar" style="height:45%; background:#e74c3c; animation-delay:0.4s"><span class="bd-bar-label">Today</span></div>
+                      </div>
+                    </div>
+                    <div class="bd-card">
+                      <div class="bd-card-header">
+                        <div class="bd-card-title">Yesterday's Details</div>
+                      </div>
+                      <div style="display:flex; flex-direction:column; gap:5px;">
+                        <div style="display:flex; justify-content:space-between; padding:5px 8px; background:#f8f9fa; border-radius:4px; font-size:10px;">
+                          <span style="color:#7f8c8d">Arrivals</span><span style="font-weight:700; color:#2c3e50">12</span>
+                        </div>
+                        <div style="display:flex; justify-content:space-between; padding:5px 8px; background:#f8f9fa; border-radius:4px; font-size:10px;">
+                          <span style="color:#7f8c8d">Departures</span><span style="font-weight:700; color:#2c3e50">6</span>
+                        </div>
+                        <div style="display:flex; justify-content:space-between; padding:5px 8px; background:#f8f9fa; border-radius:4px; font-size:10px;">
+                          <span style="color:#7f8c8d">Walk-ins</span><span style="font-weight:700; color:#2c3e50">2</span>
+                        </div>
+                        <div style="display:flex; justify-content:space-between; padding:5px 8px; background:#f8f9fa; border-radius:4px; font-size:10px;">
+                          <span style="color:#7f8c8d">Cancellations</span><span style="font-weight:700; color:#2c3e50">2</span>
+                        </div>
+                        <div style="display:flex; justify-content:space-between; padding:5px 8px; background:#f8f9fa; border-radius:4px; font-size:10px;">
+                          <span style="color:#7f8c8d">Clean Rooms</span><span style="font-weight:700; color:#2c3e50">61</span>
+                        </div>
+                        <div style="display:flex; justify-content:space-between; padding:5px 8px; background:#f8f9fa; border-radius:4px; font-size:10px;">
+                          <span style="color:#7f8c8d">Out of Order</span><span style="font-weight:700; color:#2c3e50">5</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Calendar heatmap -->
+                  <div class="bd-card" style="margin-bottom:12px">
+                    <div class="bd-card-header">
+                      <div class="bd-card-title">Next 28 Days — Occupancy Forecast</div>
+                      <div class="bd-filters">
+                        <span class="bd-filter-btn active">Occupancy</span>
+                        <span class="bd-filter-btn">Revenue</span>
+                      </div>
+                    </div>
+                    <div class="pd-calendar">
+                      <div class="pd-cal-header">Sun</div><div class="pd-cal-header">Mon</div><div class="pd-cal-header">Tue</div><div class="pd-cal-header">Wed</div><div class="pd-cal-header">Thu</div><div class="pd-cal-header">Fri</div><div class="pd-cal-header">Sat</div>
+                      <div class="pd-cal-day medium"><div class="pd-cal-date">26</div><div class="pd-cal-occ">45%</div><div class="pd-cal-rooms">31 rms</div></div>
+                      <div class="pd-cal-day low"><div class="pd-cal-date">27</div><div class="pd-cal-occ">38%</div><div class="pd-cal-rooms">26 rms</div></div>
+                      <div class="pd-cal-day low"><div class="pd-cal-date">28</div><div class="pd-cal-occ">42%</div><div class="pd-cal-rooms">29 rms</div></div>
+                      <div class="pd-cal-day medium"><div class="pd-cal-date">29</div><div class="pd-cal-occ">48%</div><div class="pd-cal-rooms">33 rms</div></div>
+                      <div class="pd-cal-day medium"><div class="pd-cal-date">30</div><div class="pd-cal-occ">58%</div><div class="pd-cal-rooms">40 rms</div></div>
+                      <div class="pd-cal-day high"><div class="pd-cal-date">31</div><div class="pd-cal-occ">85%</div><div class="pd-cal-rooms">59 rms</div></div>
+                      <div class="pd-cal-day high"><div class="pd-cal-date">1</div><div class="pd-cal-occ">92%</div><div class="pd-cal-rooms">63 rms</div></div>
+                      <div class="pd-cal-day high"><div class="pd-cal-date">2</div><div class="pd-cal-occ">78%</div><div class="pd-cal-rooms">54 rms</div></div>
+                      <div class="pd-cal-day medium"><div class="pd-cal-date">3</div><div class="pd-cal-occ">52%</div><div class="pd-cal-rooms">36 rms</div></div>
+                      <div class="pd-cal-day medium"><div class="pd-cal-date">4</div><div class="pd-cal-occ">55%</div><div class="pd-cal-rooms">38 rms</div></div>
+                      <div class="pd-cal-day medium"><div class="pd-cal-date">5</div><div class="pd-cal-occ">62%</div><div class="pd-cal-rooms">43 rms</div></div>
+                      <div class="pd-cal-day high"><div class="pd-cal-date">6</div><div class="pd-cal-occ">72%</div><div class="pd-cal-rooms">50 rms</div></div>
+                      <div class="pd-cal-day high"><div class="pd-cal-date">7</div><div class="pd-cal-occ">88%</div><div class="pd-cal-rooms">61 rms</div></div>
+                    </div>
+                  </div>
+
+                  <!-- Revenue breakdown + Financial -->
+                  <div class="bd-grid-row">
+                    <div class="bd-card">
+                      <div class="bd-card-header">
+                        <div class="bd-card-title">Revenue by Channel (MTD)</div>
+                      </div>
+                      <div class="pd-donut-wrap">
+                        <div class="pd-donut">
+                          <div class="pd-donut-center">
+                            <div class="pd-donut-label">Total</div>
+                            <div class="pd-donut-value">$133K</div>
+                          </div>
+                        </div>
+                        <div class="pd-legend">
+                          <div class="pd-legend-item"><span class="pd-legend-label"><span class="pd-legend-dot" style="background:#3498db"></span>Direct</span><span class="pd-legend-val">36%</span></div>
+                          <div class="pd-legend-item"><span class="pd-legend-label"><span class="pd-legend-dot" style="background:#e74c3c"></span>Expedia</span><span class="pd-legend-val">14%</span></div>
+                          <div class="pd-legend-item"><span class="pd-legend-label"><span class="pd-legend-dot" style="background:#f39c12"></span>Booking.com</span><span class="pd-legend-val">14%</span></div>
+                          <div class="pd-legend-item"><span class="pd-legend-label"><span class="pd-legend-dot" style="background:#9b59b6"></span>Corporate</span><span class="pd-legend-val">14%</span></div>
+                          <div class="pd-legend-item"><span class="pd-legend-label"><span class="pd-legend-dot" style="background:#95a5a6"></span>Other</span><span class="pd-legend-val">22%</span></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="bd-card">
+                      <div class="bd-card-header">
+                        <div class="bd-card-title">Financial Summary (MTD)</div>
+                      </div>
+                      <div style="display:flex; flex-direction:column; gap:5px;">
+                        <div style="display:flex; justify-content:space-between; padding:5px 8px; background:#f8f9fa; border-radius:4px; font-size:10px;">
+                          <span style="color:#7f8c8d">Room Revenue</span><span style="font-weight:700; color:#2c3e50">$115K</span>
+                        </div>
+                        <div style="display:flex; justify-content:space-between; padding:5px 8px; background:#f8f9fa; border-radius:4px; font-size:10px;">
+                          <span style="color:#7f8c8d">Other Revenue</span><span style="font-weight:700; color:#2c3e50">$1.9K</span>
+                        </div>
+                        <div style="display:flex; justify-content:space-between; padding:5px 8px; background:#f8f9fa; border-radius:4px; font-size:10px;">
+                          <span style="color:#7f8c8d">Taxes Collected</span><span style="font-weight:700; color:#2c3e50">$16K</span>
+                        </div>
+                        <div style="display:flex; justify-content:space-between; padding:5px 8px; background:#e8f5e9; border-radius:4px; font-size:10px;">
+                          <span style="color:#7f8c8d">Total Revenue</span><span style="font-weight:700; color:#27ae60">$133K</span>
+                        </div>
+                        <div style="display:flex; justify-content:space-between; padding:5px 8px; background:#f8f9fa; border-radius:4px; font-size:10px;">
+                          <span style="color:#7f8c8d">Franchise Fees</span><span style="font-weight:700; color:#2c3e50">$9.3K</span>
+                        </div>
+                        <div style="display:flex; justify-content:space-between; padding:5px 8px; background:#f8f9fa; border-radius:4px; font-size:10px;">
+                          <span style="color:#7f8c8d">vs Budget</span><span style="font-weight:700; color:#27ae60">+8.5%</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- 7-Day Breakdown Table -->
+                  <div class="bd-card" style="margin-bottom:12px">
+                    <div class="bd-card-header">
+                      <div class="bd-card-title">Last 7 Days — Daily Breakdown</div>
+                    </div>
+                    <table class="pd-table">
+                      <thead>
+                        <tr><th>Date</th><th>Day</th><th>Occ</th><th>Rooms</th><th>ADR</th><th>RevPAR</th><th>Revenue</th><th>vs LY</th></tr>
+                      </thead>
+                      <tbody>
+                        <tr><td>Dec 26</td><td>Thu</td><td>44.9%</td><td>31</td><td>$118</td><td>$53</td><td>$4,209</td><td style="color:#e74c3c">▼ 8%</td></tr>
+                        <tr><td>Dec 25</td><td>Wed</td><td>52.2%</td><td>36</td><td>$123</td><td>$64</td><td>$4,890</td><td style="color:#27ae60">▲ 5%</td></tr>
+                        <tr><td>Dec 24</td><td>Tue</td><td>48.5%</td><td>33</td><td>$115</td><td>$56</td><td>$4,272</td><td style="color:#27ae60">▲ 3%</td></tr>
+                        <tr><td>Dec 23</td><td>Mon</td><td>58.0%</td><td>40</td><td>$126</td><td>$73</td><td>$5,580</td><td style="color:#27ae60">▲ 12%</td></tr>
+                        <tr><td>Dec 22</td><td>Sun</td><td>78.3%</td><td>54</td><td>$128</td><td>$101</td><td>$7,694</td><td style="color:#27ae60">▲ 18%</td></tr>
+                        <tr><td>Dec 21</td><td>Sat</td><td>82.6%</td><td>57</td><td>$133</td><td>$110</td><td>$8,398</td><td style="color:#27ae60">▲ 22%</td></tr>
+                        <tr><td>Dec 20</td><td>Fri</td><td>72.5%</td><td>50</td><td>$125</td><td>$90</td><td>$6,909</td><td style="color:#27ae60">▲ 15%</td></tr>
+                      </tbody>
+                    </table>
+                  </div>
+
+                  <!-- AI Insights -->
+                  <div class="pd-insight-card">
+                    <div class="pd-insight-title">AI-Powered Insights</div>
+                    <div class="pd-insight-text">Based on historical patterns, your property typically sees a 15-20% occupancy dip the week after Christmas. However, NYE bookings are tracking 25% ahead of last year. Consider a "Stay 2, Get 3rd Night 50% Off" promo for Dec 27-30 to fill the mid-week gap. Direct booking % (36%) is strong — focus OTA spend on Dec 27-29 specifically.</div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EMAIL FIRST -->
+  <section class="email-section" id="email">
+    <div class="email-inner">
+      <div class="email-content">
+        <h2>Your numbers, before your coffee.</h2>
+        <p>We know you're busy. That's why Pulse delivers your numbers before you even open a browser. Skim the email, and you know where you stand.</p>
+        <ul class="email-features">
+          <li>
+            <span class="check-circle">✓</span>
+            <span>All four key metrics for every property, every morning</span>
+          </li>
+          <li>
+            <span class="check-circle">✓</span>
+            <span>Automatic comparisons to last week, last month, last year</span>
+          </li>
+          <li>
+            <span class="check-circle">✓</span>
+            <span>AI-powered insights flag what needs your attention</span>
+          </li>
+          <li>
+            <span class="check-circle">✓</span>
+            <span>One-tap to the full dashboard when you want to dig deeper</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="phone-frame">
+        <div class="phone-notch"></div>
+        <div class="phone-screen">
+          <div class="phone-email-bar">
+            <div class="email-from-row">
+              <div class="email-avatar">P</div>
+              <div>
+                <div class="email-sender">Pulse Daily Brief</div>
+                <div class="email-time">6:00 AM • To: me</div>
+              </div>
+            </div>
+            <div class="email-subject">Your Daily Pulse Report</div>
+          </div>
+          <div class="phone-scroll-area">
+            <div class="phone-scroll-content">
+              <div class="pe-container">
+                <!-- Header -->
+                <div class="pe-header">
+                  <h3>Your Daily Pulse Report</h3>
+                  <div class="pe-sub">Portfolio Overview - 2 Properties</div>
+                  <div class="pe-date">Thursday, December 26, 2024</div>
+                </div>
+
+                <!-- Portfolio Summary -->
+                <div class="pe-summary">
+                  <div class="pe-metric">
+                    <div class="pe-metric-label">Portfolio Occ</div>
+                    <div class="pe-metric-value">34.8%</div>
+                    <div class="pe-metric-sub">50 rooms sold</div>
+                  </div>
+                  <div class="pe-metric">
+                    <div class="pe-metric-label">Avg ADR</div>
+                    <div class="pe-metric-value">$119</div>
+                    <div class="pe-metric-sub">Across properties</div>
+                  </div>
+                  <div class="pe-metric">
+                    <div class="pe-metric-label">Total Revenue</div>
+                    <div class="pe-metric-value">$6.5K</div>
+                    <div class="pe-metric-sub">Yesterday</div>
+                  </div>
+                  <div class="pe-metric">
+                    <div class="pe-metric-label">Pulse Score</div>
+                    <div class="pe-metric-value">68</div>
+                    <div class="pe-metric-sub">Needs attention</div>
+                  </div>
+                </div>
+
+                <!-- Alerts -->
+                <div class="pe-section">
+                  <div class="pe-alert">
+                    <div class="pe-alert-title"> Attention Needed</div>
+                    <ul class="pe-alert-list">
+                      <li>Hampton Inn occupancy (44.9%) below weekend target</li>
+                      <li>Holiday Inn Express at critically low 24.7% occupancy</li>
+                    </ul>
+                  </div>
+                </div>
+
+                <!-- Properties -->
+                <div class="pe-section">
+                  <div class="pe-section-title"> Property Performance</div>
+
+                  <!-- Hampton Inn -->
+                  <div class="pe-property warning">
+                    <div class="pe-prop-header">
+                      <div>
+                        <div class="pe-prop-name">Hampton Inn Pittsburgh West</div>
+                        <div class="pe-prop-code">PITWM</div>
+                      </div>
+                      <span class="pe-brand-badge hilton">Hilton</span>
+                    </div>
+                    <div class="pe-prop-metrics">
+                      <div class="pe-pm">
+                        <div class="pe-pm-label">Occupancy</div>
+                        <div class="pe-pm-value">44.9%</div>
+                        <div class="pe-pm-sub">31/69 rooms</div>
+                      </div>
+                      <div class="pe-pm">
+                        <div class="pe-pm-label">ADR</div>
+                        <div class="pe-pm-value">$118</div>
+                        <div class="pe-pm-sub">Average rate</div>
+                      </div>
+                      <div class="pe-pm">
+                        <div class="pe-pm-label">RevPAR</div>
+                        <div class="pe-pm-value">$53</div>
+                        <div class="pe-pm-sub">Per room</div>
+                      </div>
+                      <div class="pe-pm">
+                        <div class="pe-pm-label">Revenue</div>
+                        <div class="pe-pm-value">$4.2K</div>
+                        <div class="pe-pm-sub">Yesterday</div>
+                      </div>
+                    </div>
+                    <div class="pe-prop-insight">
+                      <span></span>
+                      <div><strong>Insight:</strong> Occupancy below typical for a Saturday. MTD occupancy is stronger at 50.2%. Consider running a weekend promotion.</div>
+                    </div>
+                  </div>
+
+                  <!-- Holiday Inn -->
+                  <div class="pe-property warning">
+                    <div class="pe-prop-header">
+                      <div>
+                        <div class="pe-prop-name">Holiday Inn Express Fremont</div>
+                        <div class="pe-prop-code">Fremont, CA</div>
+                      </div>
+                      <span class="pe-brand-badge ihg">IHG</span>
+                    </div>
+                    <div class="pe-prop-metrics">
+                      <div class="pe-pm">
+                        <div class="pe-pm-label">Occupancy</div>
+                        <div class="pe-pm-value">24.7%</div>
+                        <div class="pe-pm-sub">19/77 rooms</div>
+                      </div>
+                      <div class="pe-pm">
+                        <div class="pe-pm-label">ADR</div>
+                        <div class="pe-pm-value">$120</div>
+                        <div class="pe-pm-sub">Average rate</div>
+                      </div>
+                      <div class="pe-pm">
+                        <div class="pe-pm-label">RevPAR</div>
+                        <div class="pe-pm-value">$32</div>
+                        <div class="pe-pm-sub">Per room</div>
+                      </div>
+                      <div class="pe-pm">
+                        <div class="pe-pm-label">Revenue</div>
+                        <div class="pe-pm-value">$2.3K</div>
+                        <div class="pe-pm-sub">Yesterday</div>
+                      </div>
+                    </div>
+                    <div class="pe-prop-insight">
+                      <span></span>
+                      <div><strong>Critical:</strong> Occupancy at 24.7% is significantly below target. Day after Christmas is typically slow, but consider aggressive rate drops or contacting local corporate accounts.</div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Comparison -->
+                <div class="pe-section">
+                  <div class="pe-comparison">
+                    <div class="pe-comp-title">Head-to-Head Comparison</div>
+                    <table class="pe-comp-table">
+                      <thead>
+                        <tr>
+                          <th>Property</th>
+                          <th style="text-align:center">Occ %</th>
+                          <th style="text-align:center">ADR</th>
+                          <th style="text-align:center">RevPAR</th>
+                          <th style="text-align:center">Rank</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td style="font-weight:600">Hampton Inn</td>
+                          <td style="text-align:center">44.9%</td>
+                          <td style="text-align:center">$118</td>
+                          <td style="text-align:center">$53</td>
+                          <td style="text-align:center"><span class="pe-rank gold">1</span></td>
+                        </tr>
+                        <tr>
+                          <td style="font-weight:600">Holiday Inn Exp.</td>
+                          <td style="text-align:center">24.7%</td>
+                          <td style="text-align:center">$120</td>
+                          <td style="text-align:center">$32</td>
+                          <td style="text-align:center"><span class="pe-rank silver">2</span></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                <!-- MTD -->
+                <div class="pe-section">
+                  <div class="pe-alert info">
+                    <div class="pe-alert-title"> December Performance (MTD)</div>
+                    <ul class="pe-alert-list">
+                      <li><strong>Hampton Inn:</strong> 50.2% occ | 969 rooms | $133K rev</li>
+                      <li><strong>Holiday Inn Exp:</strong> 43.0% occ | 828 rooms | $111K rev</li>
+                      <li><strong>Combined:</strong> $244K revenue for December so far</li>
+                    </ul>
+                  </div>
+                </div>
+
+                <!-- Actions -->
+                <div class="pe-section">
+                  <div class="pe-section-title"> Recommended Actions</div>
+                  <div class="pe-action">
+                    <div class="pe-action-title">1. Fremont — Immediate Action</div>
+                    <div class="pe-action-text">24.7% occupancy is critical. Review pricing and reach out to corporate accounts for end-of-year bookings.</div>
+                  </div>
+                  <div class="pe-action">
+                    <div class="pe-action-title">2. Hampton Inn — Monitor</div>
+                    <div class="pe-action-text">Weekend occ at 44.9% is below target. MTD is better at 50.2%. Watch next weekend.</div>
+                  </div>
+                  <div class="pe-action">
+                    <div class="pe-action-title">3. New Year's Week Strategy</div>
+                    <div class="pe-action-text">Both properties: Focus on capturing NYE travel. Review rates for Dec 30–Jan 2.</div>
+                  </div>
+                </div>
+
+                <!-- CTA -->
+                <a href="#" class="pe-cta">View Full Portfolio Dashboard →</a>
+
+                <!-- Footer -->
+                <div class="pe-footer">
+                  Powered by Pulse — Your Business Dashboard<br>
+                  <a href="#">View Dashboard</a> · <a href="#">Settings</a> · <a href="#">Support</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="phone-home-bar"><div></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section" id="cta">
+    <h2>See your portfolio clearly.</h2>
+    <p>Pulse is built for hotel owners who think like executives. Join the early access list and be first to see your portfolio differently.</p>
+    <div class="cta-actions">
+      <a href="#" class="btn-primary">
+        Request Early Access
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+      <a href="#" class="btn-secondary">Schedule a Demo</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-logo">
+        <svg width="20" height="20" viewBox="0 0 44 44" fill="none">
+          <defs>
+            <linearGradient id="ft-bar-grad" x1="0.5" y1="1" x2="0.5" y2="0">
+              <stop offset="0%" stop-color="#4f9cf9"/>
+              <stop offset="100%" stop-color="#7c3aed" stop-opacity="0.85"/>
+            </linearGradient>
+          </defs>
+          <rect x="18" y="6" width="8" height="36" rx="2" fill="url(#ft-bar-grad)"/>
+          <rect x="8" y="16" width="8" height="26" rx="2" fill="#4f9cf9" opacity="0.55"/>
+          <rect x="28" y="16" width="8" height="26" rx="2" fill="#4f9cf9" opacity="0.55"/>
+          <path d="M4,42 Q22,34 40,42" stroke="#4f9cf9" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.5"/>
+        </svg>
+        <span class="logo-pulse">pulse</span>
+      </div>
+      <div class="footer-right">
+        © 2026 Pulse. Hotel Portfolio Intelligence.
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
