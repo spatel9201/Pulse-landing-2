@@ -1,0 +1,1646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pulse — Hotel Portfolio Intelligence</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --brand: #533afd;
+    --brand-muted: #b9b9f9;
+    --ink: #061b31;
+    --secondary: #50617a;
+    --tertiary: #64748d;
+    --rule: #d8d6df;
+    --surface-alt: #e5edf5;
+    --surface-light: #f8fafd;
+    --white: #ffffff;
+    --positive: #1a8754;
+    --negative: #c4320a;
+    --font: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    --radius: 6px;
+    --radius-sm: 4px;
+    --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+    --shadow-md: 0 4px 16px rgba(0,0,0,0.06);
+    --shadow-lg: 0 0 32px 8px rgba(0,0,0,0.05);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font);
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--ink);
+    background: var(--white);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed; top: 0; width: 100%; z-index: 100;
+    padding: 0 48px; height: 52px;
+    display: flex; justify-content: space-between; align-items: center;
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-bottom: 1px solid var(--surface-alt);
+  }
+  .nav-logo {
+    display: flex; align-items: flex-end; gap: 10px;
+    text-decoration: none; font-size: 20px; font-weight: 600;
+    letter-spacing: -0.02em; color: var(--ink); line-height: 1;
+  }
+  .nav-logo .logo-pulse {
+    background: linear-gradient(90deg, #4f9cf9 0%, #7c3aed 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-family: 'Plus Jakarta Sans', var(--font);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+  }
+  .nav-links { display: flex; align-items: center; gap: 32px; }
+  .nav-links a {
+    text-decoration: none; color: var(--tertiary); font-size: 14px;
+    font-weight: 400; transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--ink); }
+  .nav-cta {
+    background: var(--brand) !important; color: var(--white) !important;
+    padding: 7px 18px !important; border-radius: 980px;
+    font-weight: 500 !important; font-size: 14px !important; transition: all 0.2s !important;
+  }
+  .nav-cta:hover { opacity: 0.88 !important; }
+
+  /* ─── HERO ─── */
+  .hero {
+    min-height: 100vh; display: flex; align-items: center;
+    padding: 96px 48px 80px; position: relative; overflow: hidden;
+  }
+  .hero-inner {
+    max-width: 1200px; margin: 0 auto; width: 100%;
+    display: grid; grid-template-columns: 1fr 1.2fr; gap: 80px; align-items: center;
+  }
+  .hero-content { position: relative; z-index: 2; }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    border: 1px solid var(--surface-alt); padding: 5px 14px;
+    border-radius: 980px; font-size: 12px; font-weight: 500;
+    color: var(--brand); letter-spacing: 0.02em;
+    margin-bottom: 28px; animation: fadeUp 0.6s ease-out both;
+  }
+  .hero-badge::before {
+    content: ''; width: 6px; height: 6px; border-radius: 50%;
+    background: var(--brand); animation: badgePulse 2s ease-in-out infinite;
+  }
+  @keyframes badgePulse {
+    0%, 100% { opacity: 1; } 50% { opacity: 0.3; }
+  }
+
+  h1 {
+    font-size: 52px; font-weight: 300; line-height: 1.07;
+    letter-spacing: -0.03em; color: var(--ink);
+    margin-bottom: 24px; animation: fadeUp 0.6s ease-out 0.1s both;
+  }
+  h1 .gradient-text { color: var(--brand); }
+  .hero-sub {
+    font-size: 18px; line-height: 1.6; color: var(--secondary);
+    font-weight: 300; max-width: 440px; margin-bottom: 36px;
+    animation: fadeUp 0.6s ease-out 0.2s both;
+  }
+  .hero-actions {
+    display: flex; gap: 12px;
+    animation: fadeUp 0.6s ease-out 0.3s both;
+  }
+  .btn-primary {
+    background: var(--brand); color: var(--white);
+    padding: 12px 24px; border: none; border-radius: var(--radius-sm);
+    font-family: var(--font); font-size: 15px; font-weight: 500;
+    cursor: pointer; transition: all 0.2s; text-decoration: none;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .btn-primary:hover { opacity: 0.88; }
+  .btn-secondary {
+    background: transparent; color: var(--brand);
+    padding: 12px 24px; border: 1px solid var(--brand-muted);
+    border-radius: var(--radius-sm); font-family: var(--font);
+    font-size: 15px; font-weight: 500; cursor: pointer;
+    transition: all 0.2s; text-decoration: none;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .btn-secondary:hover { border-color: var(--brand); }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ─── BROWSER FRAME ─── */
+  .hero-visual {
+    position: relative; z-index: 2; max-width: 100%; overflow: hidden;
+    animation: fadeUp 0.8s ease-out 0.4s both;
+  }
+  .browser-frame {
+    background: var(--ink); border-radius: 8px; overflow: hidden;
+    box-shadow: var(--shadow-lg);
+    transform: perspective(1000px) rotateY(-2deg) rotateX(1deg);
+    transition: transform 0.5s;
+  }
+  .browser-frame:hover { transform: perspective(1000px) rotateY(-0.5deg) rotateX(0.3deg); }
+  .browser-chrome {
+    background: #f0f0f0; padding: 10px 14px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .browser-dots { display: flex; gap: 6px; }
+  .browser-dots span { width: 10px; height: 10px; border-radius: 50%; }
+  .browser-dots span:nth-child(1) { background: #ff5f57; }
+  .browser-dots span:nth-child(2) { background: #febc2e; }
+  .browser-dots span:nth-child(3) { background: #28c840; }
+  .browser-url {
+    flex: 1; background: var(--white); border-radius: var(--radius-sm);
+    padding: 5px 12px; font-size: 11px; color: var(--tertiary);
+    display: flex; align-items: center; gap: 6px;
+  }
+  .browser-url .lock-icon { color: #28c840; font-size: 8px; }
+  .browser-body { display: flex; height: 440px; overflow: hidden; max-width: 100%; }
+
+  /* Sidebar */
+  .bd-sidebar {
+    width: 180px; min-width: 180px; background: var(--ink); padding: 14px; color: white;
+  }
+  .bd-sidebar-logo { font-size: 15px; font-weight: 600; color: var(--brand-muted); margin-bottom: 18px; letter-spacing: -0.02em; }
+  .bd-nav-item {
+    padding: 7px 10px; border-radius: var(--radius-sm); font-size: 11px;
+    color: rgba(255,255,255,0.45); display: flex; align-items: center; gap: 7px; margin-bottom: 2px;
+  }
+  .bd-nav-item.active { background: var(--brand); color: white; }
+  .bd-nav-section {
+    font-size: 9px; text-transform: uppercase; letter-spacing: 0.08em;
+    opacity: 0.3; font-weight: 500; margin: 14px 0 6px 10px;
+  }
+
+  /* Main content */
+  .bd-main { flex: 1; background: var(--surface-light); overflow: hidden; position: relative; }
+  .bd-scroll-area { height: 440px; overflow: hidden; }
+  .bd-scroll-content { animation: dashScroll 20s ease-in-out infinite; animation-delay: 2s; }
+  @keyframes dashScroll {
+    0% { transform: translateY(0); } 12% { transform: translateY(0); }
+    88% { transform: translateY(calc(-100% + 440px)); }
+    96% { transform: translateY(calc(-100% + 440px)); } 100% { transform: translateY(0); }
+  }
+  .bd-main::after {
+    content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 50px;
+    background: linear-gradient(transparent, var(--surface-light)); pointer-events: none; z-index: 1;
+  }
+  .bd-content { padding: 14px; }
+  .bd-topbar {
+    background: var(--white); padding: 12px 16px; border-radius: var(--radius);
+    margin-bottom: 12px; box-shadow: var(--shadow-sm);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .bd-topbar h2 { font-size: 15px; font-weight: 600; color: var(--ink); margin-bottom: 2px; letter-spacing: -0.01em; }
+  .bd-topbar .bd-date { font-size: 10px; color: var(--tertiary); }
+  .bd-topbar-right { display: flex; align-items: center; gap: 8px; }
+  .bd-select {
+    padding: 4px 10px; border: 1px solid var(--surface-alt); border-radius: var(--radius-sm);
+    font-size: 10px; background: var(--white); color: var(--ink); font-weight: 500;
+  }
+  .bd-avatar {
+    width: 24px; height: 24px; border-radius: 50%; background: var(--brand);
+    display: flex; align-items: center; justify-content: center;
+    color: white; font-size: 9px; font-weight: 500;
+  }
+  .bd-alert {
+    background: var(--negative); color: white; padding: 10px 14px;
+    border-radius: var(--radius); margin-bottom: 12px; display: flex; align-items: center; gap: 10px;
+  }
+  .bd-alert-icon { font-size: 14px; }
+  .bd-alert-text { flex: 1; }
+  .bd-alert-title { font-size: 11px; font-weight: 600; margin-bottom: 1px; }
+  .bd-alert-sub { font-size: 10px; opacity: 0.85; }
+  .bd-alert-btn {
+    background: white; color: var(--negative); border: none;
+    padding: 5px 10px; border-radius: var(--radius-sm);
+    font-size: 9px; font-weight: 600; cursor: pointer;
+  }
+  .bd-kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 12px; }
+  .bd-kpi {
+    background: var(--white); padding: 12px; border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+  }
+  .bd-kpi-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+  .bd-kpi-label { font-size: 9px; text-transform: uppercase; font-weight: 500; color: var(--tertiary); letter-spacing: 0.04em; }
+  .bd-kpi-icon { width: 24px; height: 24px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; font-size: 12px; }
+  .bd-kpi-icon.purple { background: #f3f0ff; }
+  .bd-kpi-icon.blue { background: var(--surface-alt); }
+  .bd-kpi-icon.green { background: #e8f5e9; }
+  .bd-kpi-icon.orange { background: #fff3e0; }
+  .bd-kpi-value { font-size: 22px; font-weight: 300; color: var(--ink); margin-bottom: 3px; letter-spacing: -0.02em; }
+  .bd-kpi-change { font-size: 10px; font-weight: 500; }
+  .bd-kpi-change.positive { color: var(--positive); }
+  .bd-kpi-change.negative { color: var(--negative); }
+  .bd-grid-row { display: grid; grid-template-columns: 1.6fr 1fr; gap: 10px; margin-bottom: 12px; }
+  .bd-card {
+    background: var(--white); padding: 14px; border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+  }
+  .bd-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+  .bd-card-title { font-size: 13px; font-weight: 600; color: var(--ink); letter-spacing: -0.01em; }
+  .bd-filters { display: flex; gap: 4px; }
+  .bd-filter-btn {
+    padding: 3px 8px; border: 1px solid var(--surface-alt); background: var(--white);
+    border-radius: var(--radius-sm); font-size: 9px; font-weight: 500;
+    color: var(--tertiary); cursor: pointer;
+  }
+  .bd-filter-btn.active { background: var(--brand); color: white; border-color: var(--brand); }
+  .bd-chart-bars { display: flex; align-items: flex-end; gap: 4px; height: 120px; padding-top: 4px; }
+  .bd-bar {
+    flex: 1; background: var(--brand); border-radius: 2px 2px 0 0;
+    min-height: 4px; position: relative; animation: bdBarGrow 1.2s ease-out both;
+  }
+  @keyframes bdBarGrow { from { height: 0 !important; } }
+  .bd-bar-label {
+    position: absolute; bottom: -16px; left: 50%; transform: translateX(-50%);
+    font-size: 7px; color: var(--tertiary); white-space: nowrap;
+  }
+  .bd-prop-item { border: 1px solid var(--surface-alt); border-radius: var(--radius); padding: 10px; margin-bottom: 8px; }
+  .bd-prop-item-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+  .bd-prop-name { font-size: 12px; font-weight: 600; color: var(--ink); }
+  .bd-prop-brand { font-size: 10px; color: var(--tertiary); margin-top: 1px; }
+  .bd-status { padding: 3px 8px; border-radius: var(--radius-sm); font-size: 9px; font-weight: 500; }
+  .bd-status.warning { background: #fff3cd; color: #856404; }
+  .bd-status.critical { background: #f8d7da; color: #721c24; }
+  .bd-prop-metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+  .bd-prop-m { text-align: center; background: var(--surface-light); border-radius: var(--radius-sm); padding: 5px; }
+  .bd-prop-m-label { font-size: 8px; text-transform: uppercase; color: var(--tertiary); font-weight: 500; margin-bottom: 2px; }
+  .bd-prop-m-value { font-size: 13px; font-weight: 600; color: var(--ink); }
+  .bd-comp-table { width: 100%; border-collapse: collapse; font-size: 10px; }
+  .bd-comp-table th {
+    text-align: left; padding: 8px 6px; font-size: 8px; text-transform: uppercase;
+    font-weight: 500; color: var(--tertiary); border-bottom: 1px solid var(--surface-alt);
+  }
+  .bd-comp-table td { padding: 9px 6px; border-bottom: 1px solid var(--surface-alt); color: var(--ink); }
+  .bd-comp-table .prop-cell { font-weight: 600; }
+  .bd-trend { display: inline-flex; align-items: center; padding: 2px 6px; border-radius: var(--radius-sm); font-size: 9px; font-weight: 600; }
+  .bd-trend.down { background: #f8d7da; color: #721c24; }
+  .bd-trend.up { background: #d4edda; color: #155724; }
+  .bd-calendar { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin-top: 10px; }
+  .bd-cal-day { aspect-ratio: 1; border-radius: var(--radius-sm); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 4px; }
+  .bd-cal-day-label { font-size: 7px; opacity: 0.7; margin-bottom: 2px; }
+  .bd-cal-day-occ { font-size: 11px; font-weight: 600; }
+  .bd-cal-day.high { background: #d4edda; color: #155724; }
+  .bd-cal-day.medium { background: #fff3cd; color: #856404; }
+  .bd-cal-day.low { background: #f8d7da; color: #721c24; }
+  .bd-cal-day.future { background: var(--surface-light); color: var(--tertiary); }
+
+  /* ─── PROOF STRIP ─── */
+  .proof-strip {
+    padding: 40px 48px; background: var(--white); text-align: center;
+    border-top: 1px solid var(--surface-alt); border-bottom: 1px solid var(--surface-alt);
+  }
+  .proof-strip p {
+    font-size: 11px; font-weight: 500; color: var(--tertiary);
+    text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 24px;
+  }
+  .proof-logos { display: flex; justify-content: center; gap: 48px; align-items: center; flex-wrap: wrap; }
+  .proof-logos svg, .proof-logos .proof-logo-img {
+    opacity: 0.35; filter: grayscale(100%); transition: all 0.3s;
+  }
+  .proof-logos svg:hover, .proof-logos .proof-logo-img:hover {
+    opacity: 0.7; filter: grayscale(0%);
+  }
+  .proof-logo { font-weight: 600; font-size: 15px; color: var(--rule); }
+
+  /* ─── SECTIONS ─── */
+  .section-tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 13px; font-weight: 500; letter-spacing: 0.06em;
+    text-transform: uppercase; color: var(--brand); margin-bottom: 16px;
+  }
+  .section-tag::before { content: ''; width: 24px; height: 1px; background: var(--brand); }
+
+  /* ─── PROBLEM ─── */
+  .problem { padding: 96px 48px; max-width: 1200px; margin: 0 auto; }
+  .problem h2 {
+    font-size: 40px; font-weight: 300; line-height: 1.12;
+    letter-spacing: -0.025em; color: var(--ink); max-width: 580px; margin-bottom: 48px;
+  }
+  .problem-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .problem-card {
+    background: var(--white); padding: 32px; border-radius: var(--radius);
+    border: 1px solid var(--surface-alt); transition: all 0.3s;
+  }
+  .problem-card:hover { box-shadow: var(--shadow-md); border-color: var(--rule); }
+  .problem-icon {
+    width: 40px; height: 40px; border-radius: var(--radius-sm);
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 20px; font-size: 18px;
+  }
+  .problem-icon.purple { background: #f3f0ff; }
+  .problem-icon.blue { background: var(--surface-alt); }
+  .problem-icon.orange { background: #fff8f0; }
+  .problem-card h4 {
+    font-size: 17px; font-weight: 600; letter-spacing: -0.01em;
+    color: var(--ink); margin-bottom: 8px;
+  }
+  .problem-card p { font-size: 14px; line-height: 1.6; color: var(--secondary); }
+
+  /* ─── HOW IT WORKS ─── */
+  .how {
+    padding: 96px 48px; background: var(--ink); color: white; position: relative;
+  }
+  .how::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--brand), transparent);
+  }
+  .how-inner { max-width: 1200px; margin: 0 auto; }
+  .how .section-tag { color: var(--brand-muted); }
+  .how .section-tag::before { background: var(--brand-muted); }
+  .how h2 {
+    font-size: 40px; font-weight: 300; line-height: 1.12;
+    letter-spacing: -0.025em; max-width: 500px; margin-bottom: 56px; color: white;
+  }
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .step {
+    padding: 36px; border-radius: var(--radius);
+    border: 1px solid rgba(255,255,255,0.06); transition: all 0.3s;
+  }
+  .step:hover { border-color: rgba(255,255,255,0.12); }
+  .step-num {
+    font-size: 48px; font-weight: 300; color: rgba(83,58,253,0.25);
+    line-height: 1; letter-spacing: -0.03em; margin-bottom: 20px;
+  }
+  .step h4 { font-size: 17px; font-weight: 600; letter-spacing: -0.01em; margin-bottom: 10px; color: white; }
+  .step p { font-size: 14px; line-height: 1.6; color: rgba(255,255,255,0.4); }
+
+  /* ─── METRICS ─── */
+  .metrics-section { padding: 96px 48px; max-width: 1200px; margin: 0 auto; }
+  .metrics-section h2 {
+    font-size: 40px; font-weight: 300; line-height: 1.12;
+    letter-spacing: -0.025em; color: var(--ink); max-width: 480px; margin-bottom: 12px;
+  }
+  .section-sub { font-size: 16px; line-height: 1.6; color: var(--secondary); max-width: 460px; margin-bottom: 48px; font-weight: 300; }
+  .metrics-showcase { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .metric-showcase-card {
+    background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow-sm);
+    padding: 32px 24px; text-align: center; border: 1px solid var(--surface-alt);
+    transition: all 0.3s; position: relative; overflow: hidden;
+  }
+  .metric-showcase-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: var(--brand); transform: scaleX(0); transition: transform 0.3s;
+  }
+  .metric-showcase-card:hover::before { transform: scaleX(1); }
+  .metric-showcase-card:hover { box-shadow: var(--shadow-md); }
+  .m-icon {
+    width: 40px; height: 40px; border-radius: var(--radius-sm);
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 16px; font-size: 18px;
+  }
+  .m-icon.purple { background: #f3f0ff; }
+  .m-icon.blue { background: var(--surface-alt); }
+  .m-icon.green { background: #e8f5e9; }
+  .m-icon.orange { background: #fff8f0; }
+  .metric-showcase-card h4 { font-size: 17px; font-weight: 600; letter-spacing: -0.01em; color: var(--ink); margin-bottom: 6px; }
+  .metric-showcase-card p { font-size: 13px; color: var(--secondary); line-height: 1.55; }
+
+  /* ─── PROPERTY DETAIL ─── */
+  .property-section { padding: 96px 48px; background: var(--surface-light); }
+  .property-section-inner { max-width: 1200px; margin: 0 auto; }
+  .property-section h2 {
+    font-size: 40px; font-weight: 300; line-height: 1.12;
+    letter-spacing: -0.025em; color: var(--ink); max-width: 480px; margin-bottom: 12px;
+  }
+  .property-section .section-sub { margin-bottom: 40px; }
+  .property-browser {
+    background: var(--ink); border-radius: 8px; overflow: hidden;
+    box-shadow: var(--shadow-lg); max-width: 1000px; margin: 0 auto;
+  }
+  .pd-main { flex: 1; background: var(--surface-light); overflow: hidden; position: relative; }
+  .pd-scroll-area { height: 480px; overflow: hidden; }
+  .pd-scroll-content { animation: pdScroll 22s ease-in-out infinite; animation-delay: 3s; }
+  @keyframes pdScroll {
+    0% { transform: translateY(0); } 10% { transform: translateY(0); }
+    88% { transform: translateY(calc(-100% + 480px)); }
+    96% { transform: translateY(calc(-100% + 480px)); } 100% { transform: translateY(0); }
+  }
+  .pd-main::after {
+    content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 50px;
+    background: linear-gradient(transparent, var(--surface-light)); pointer-events: none; z-index: 1;
+  }
+  .pd-content { padding: 14px; }
+  .pd-breadcrumb { font-size: 11px; color: var(--tertiary); margin-bottom: 10px; }
+  .pd-breadcrumb a { color: var(--brand); text-decoration: none; }
+  .pd-prop-header {
+    background: var(--white); border-radius: var(--radius); padding: 16px;
+    margin-bottom: 12px; box-shadow: var(--shadow-sm);
+  }
+  .pd-prop-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+  .pd-prop-title-row { display: flex; align-items: center; gap: 10px; }
+  .pd-prop-icon { font-size: 18px; }
+  .pd-prop-title { font-size: 16px; font-weight: 600; color: var(--ink); letter-spacing: -0.01em; }
+  .pd-prop-subtitle { font-size: 10px; color: var(--tertiary); margin-top: 2px; }
+  .pd-prop-actions { display: flex; gap: 6px; }
+  .pd-action-btn { padding: 5px 10px; border-radius: var(--radius-sm); font-size: 10px; font-weight: 500; border: none; cursor: pointer; }
+  .pd-action-btn.secondary { background: var(--surface-light); color: var(--ink); border: 1px solid var(--surface-alt); }
+  .pd-action-btn.primary { background: var(--brand); color: white; }
+  .pd-pulse-row {
+    display: flex; align-items: center; gap: 14px;
+    background: var(--surface-light); border-radius: var(--radius); padding: 12px 14px;
+  }
+  .pd-pulse-circle {
+    width: 52px; height: 52px; min-width: 52px; border-radius: 50%;
+    background: conic-gradient(#f39c12 0deg 259deg, var(--surface-alt) 259deg 360deg);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .pd-pulse-inner {
+    width: 40px; height: 40px; border-radius: 50%; background: white;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; font-weight: 600; color: #f39c12;
+  }
+  .pd-pulse-status { font-size: 12px; font-weight: 600; color: var(--ink); margin-bottom: 2px; }
+  .pd-pulse-desc { font-size: 10px; color: var(--secondary); line-height: 1.5; }
+  .pd-alert {
+    background: #fffbf0; border-left: 3px solid #f39c12;
+    padding: 10px 14px; border-radius: var(--radius-sm); margin-bottom: 12px;
+  }
+  .pd-alert-title { font-size: 12px; font-weight: 600; color: var(--ink); margin-bottom: 3px; }
+  .pd-alert-text { font-size: 10px; color: var(--secondary); line-height: 1.5; }
+  .pd-kpi-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-bottom: 12px; }
+  .pd-kpi { background: var(--white); padding: 10px; border-radius: var(--radius); box-shadow: var(--shadow-sm); }
+  .pd-kpi-label { font-size: 9px; text-transform: uppercase; font-weight: 500; color: var(--tertiary); margin-bottom: 4px; }
+  .pd-kpi-value { font-size: 18px; font-weight: 300; color: var(--ink); margin-bottom: 1px; letter-spacing: -0.02em; }
+  .pd-kpi-sub { font-size: 9px; color: var(--tertiary); margin-bottom: 2px; }
+  .pd-kpi-change { font-size: 9px; font-weight: 500; }
+  .pd-kpi-change.positive { color: var(--positive); }
+  .pd-kpi-change.negative { color: var(--negative); }
+  .pd-calendar { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+  .pd-cal-header { text-align: center; font-size: 8px; font-weight: 500; color: var(--tertiary); text-transform: uppercase; padding: 4px 0; }
+  .pd-cal-day { border-radius: var(--radius-sm); padding: 5px 3px; text-align: center; }
+  .pd-cal-date { font-size: 9px; font-weight: 500; margin-bottom: 1px; }
+  .pd-cal-occ { font-size: 10px; font-weight: 600; }
+  .pd-cal-rooms { font-size: 7px; opacity: 0.75; }
+  .pd-cal-day.high { background: #d4edda; color: #155724; }
+  .pd-cal-day.medium { background: #fff3cd; color: #856404; }
+  .pd-cal-day.low { background: #f8d7da; color: #721c24; }
+  .pd-donut-wrap { display: flex; align-items: center; gap: 16px; }
+  .pd-donut {
+    width: 100px; height: 100px; min-width: 100px; border-radius: 50%;
+    background: conic-gradient(#3498db 0deg 130deg, #e74c3c 130deg 180deg, #f39c12 180deg 230deg, #9b59b6 230deg 280deg, var(--tertiary) 280deg 360deg);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .pd-donut-center { width: 64px; height: 64px; border-radius: 50%; background: white; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .pd-donut-label { font-size: 8px; color: var(--tertiary); }
+  .pd-donut-value { font-size: 16px; font-weight: 600; color: var(--ink); }
+  .pd-legend { flex: 1; display: flex; flex-direction: column; gap: 5px; }
+  .pd-legend-item { display: flex; align-items: center; justify-content: space-between; font-size: 10px; }
+  .pd-legend-label { display: flex; align-items: center; gap: 5px; color: var(--secondary); }
+  .pd-legend-dot { width: 8px; height: 8px; border-radius: 2px; }
+  .pd-legend-val { font-weight: 600; color: var(--ink); }
+  .pd-table { width: 100%; border-collapse: collapse; font-size: 10px; }
+  .pd-table th {
+    text-align: left; padding: 7px 5px; font-size: 8px; text-transform: uppercase;
+    font-weight: 500; color: var(--tertiary); border-bottom: 1px solid var(--surface-alt);
+  }
+  .pd-table td { padding: 7px 5px; border-bottom: 1px solid var(--surface-alt); color: var(--ink); }
+  .pd-insight-card {
+    background: var(--ink); color: white; padding: 14px;
+    border-radius: var(--radius); margin-top: 12px;
+  }
+  .pd-insight-title { font-size: 12px; font-weight: 600; margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
+  .pd-insight-text { font-size: 10px; line-height: 1.6; opacity: 0.7; }
+
+  /* ─── EMAIL SECTION ─── */
+  .email-section {
+    padding: 96px 48px; background: var(--white); border-top: 1px solid var(--surface-alt);
+  }
+  .email-inner {
+    max-width: 1200px; margin: 0 auto; display: grid;
+    grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
+  }
+  .email-content h2 {
+    font-size: 40px; font-weight: 300; line-height: 1.12;
+    letter-spacing: -0.025em; color: var(--ink); margin-bottom: 16px;
+  }
+  .email-content > p {
+    font-size: 16px; line-height: 1.6; color: var(--secondary); margin-bottom: 28px;
+    max-width: 400px; font-weight: 300;
+  }
+  .email-features { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+  .email-features li {
+    display: flex; align-items: flex-start; gap: 12px;
+    font-size: 14px; color: var(--secondary); line-height: 1.5;
+  }
+  .check-circle {
+    width: 20px; height: 20px; min-width: 20px; border-radius: 50%;
+    background: #e8f5e9; color: var(--positive);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; font-weight: 600; margin-top: 2px;
+  }
+
+  /* Phone frame */
+  .phone-frame {
+    width: 100%; max-width: 380px; margin: 0 auto;
+    background: var(--ink); border-radius: 40px; padding: 12px;
+    box-shadow: var(--shadow-lg); position: relative;
+  }
+  .phone-notch {
+    width: 100px; height: 24px; background: var(--ink);
+    border-radius: 0 0 14px 14px; position: absolute;
+    top: 0; left: 50%; transform: translateX(-50%); z-index: 3;
+  }
+  .phone-screen { background: var(--surface-light); border-radius: 30px; overflow: hidden; position: relative; }
+  .phone-status-bar { display: none; }
+  .phone-email-bar {
+    background: var(--white); padding: 10px 20px 12px;
+    border-bottom: 1px solid var(--surface-alt); position: sticky; top: 0; z-index: 2;
+  }
+  .phone-email-bar .email-from-row { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+  .phone-email-bar .email-avatar {
+    width: 32px; height: 32px; min-width: 32px; border-radius: 50%;
+    background: var(--brand); display: flex; align-items: center; justify-content: center;
+    color: white; font-weight: 600; font-size: 12px;
+  }
+  .phone-email-bar .email-sender { font-size: 14px; font-weight: 600; color: var(--ink); }
+  .phone-email-bar .email-time { font-size: 11px; color: var(--tertiary); }
+  .phone-email-bar .email-subject { font-size: 12px; color: var(--secondary); padding-left: 42px; }
+  .phone-scroll-area { height: 520px; overflow: hidden; position: relative; }
+  .phone-scroll-content { animation: emailScroll 18s ease-in-out infinite; animation-delay: 2s; }
+  @keyframes emailScroll {
+    0% { transform: translateY(0); } 15% { transform: translateY(0); }
+    85% { transform: translateY(calc(-100% + 520px)); }
+    95% { transform: translateY(calc(-100% + 520px)); } 100% { transform: translateY(0); }
+  }
+  .phone-scroll-area::after {
+    content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 50px;
+    background: linear-gradient(transparent, var(--surface-light)); pointer-events: none; z-index: 1;
+  }
+  .phone-home-bar { height: 24px; display: flex; align-items: center; justify-content: center; background: white; }
+  .phone-home-bar div { width: 100px; height: 4px; background: var(--rule); border-radius: 2px; }
+
+  /* Email content inside phone */
+  .pe-container { background: var(--white); margin: 10px; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-sm); }
+  .pe-header { background: var(--brand); color: white; padding: 20px 18px; }
+  .pe-header h3 { font-size: 17px; font-weight: 600; margin-bottom: 4px; letter-spacing: -0.01em; }
+  .pe-header .pe-sub { font-size: 12px; opacity: 0.85; margin-top: 3px; }
+  .pe-header .pe-date { font-size: 12px; opacity: 0.65; margin-top: 6px; }
+  .pe-summary { background: var(--ink); color: white; padding: 16px 18px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .pe-metric { text-align: center; padding: 6px 0; }
+  .pe-metric-label { font-size: 9px; text-transform: uppercase; letter-spacing: 0.08em; opacity: 0.5; font-weight: 500; margin-bottom: 3px; }
+  .pe-metric-value { font-size: 20px; font-weight: 300; line-height: 1.1; letter-spacing: -0.02em; }
+  .pe-metric-sub { font-size: 10px; opacity: 0.5; margin-top: 2px; }
+  .pe-section { padding: 16px 18px; }
+  .pe-alert { background: #fffbf0; border-left: 3px solid #f39c12; padding: 12px 14px; border-radius: var(--radius-sm); margin-bottom: 14px; }
+  .pe-alert.info { background: #f0f8ff; border-left-color: #3498db; }
+  .pe-alert-title { font-size: 13px; font-weight: 600; color: var(--ink); margin-bottom: 5px; }
+  .pe-alert-list { list-style: none; font-size: 11px; color: var(--secondary); line-height: 1.6; }
+  .pe-alert-list li { padding-left: 12px; position: relative; }
+  .pe-alert-list li::before { content: "•"; position: absolute; left: 0; font-weight: 600; }
+  .pe-section-title { font-size: 14px; font-weight: 600; color: var(--ink); margin-bottom: 12px; letter-spacing: -0.01em; }
+  .pe-property { border: 1px solid var(--surface-alt); border-radius: var(--radius); padding: 14px; margin-bottom: 14px; }
+  .pe-property.warning { border-left: 3px solid #f39c12; }
+  .pe-property.success { border-left: 3px solid var(--positive); }
+  .pe-prop-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+  .pe-prop-name { font-size: 14px; font-weight: 600; color: var(--ink); }
+  .pe-prop-code { font-size: 10px; color: var(--tertiary); margin-top: 2px; }
+  .pe-brand-badge { padding: 3px 8px; border-radius: var(--radius-sm); font-size: 9px; font-weight: 600; color: white; }
+  .pe-brand-badge.hilton { background: #003f87; }
+  .pe-brand-badge.ihg { background: #006341; }
+  .pe-prop-metrics { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 10px; }
+  .pe-pm { text-align: center; }
+  .pe-pm-label { font-size: 9px; text-transform: uppercase; font-weight: 500; color: var(--tertiary); margin-bottom: 2px; }
+  .pe-pm-value { font-size: 16px; font-weight: 300; color: var(--ink); letter-spacing: -0.02em; }
+  .pe-pm-sub { font-size: 9px; color: var(--tertiary); margin-top: 1px; }
+  .pe-prop-insight { background: var(--surface-light); padding: 10px 12px; border-radius: var(--radius-sm); font-size: 11px; color: var(--secondary); line-height: 1.5; display: flex; align-items: start; gap: 8px; }
+  .pe-prop-insight span:first-child { font-size: 14px; flex-shrink: 0; }
+  .pe-comparison { background: var(--surface-light); padding: 14px; border-radius: var(--radius); margin-bottom: 14px; }
+  .pe-comp-title { font-size: 12px; font-weight: 600; color: var(--ink); margin-bottom: 10px; }
+  .pe-comp-table { width: 100%; border-collapse: collapse; font-size: 11px; }
+  .pe-comp-table th { text-align: left; padding: 6px 5px; font-size: 9px; color: var(--tertiary); text-transform: uppercase; font-weight: 500; border-bottom: 1px solid var(--rule); }
+  .pe-comp-table td { padding: 8px 5px; border-bottom: 1px solid var(--surface-alt); font-size: 11px; color: var(--ink); }
+  .pe-comp-table tr:last-child td { border-bottom: none; }
+  .pe-rank { display: inline-block; width: 18px; height: 18px; border-radius: 50%; text-align: center; line-height: 18px; font-size: 9px; font-weight: 600; }
+  .pe-rank.gold { background: #ffd700; color: #856404; }
+  .pe-rank.silver { background: #c0c0c0; color: #495057; }
+  .pe-action { background: var(--surface-light); padding: 10px 12px; border-radius: var(--radius-sm); margin-bottom: 8px; }
+  .pe-action-title { font-size: 12px; font-weight: 600; color: var(--ink); margin-bottom: 3px; }
+  .pe-action-text { font-size: 11px; color: var(--secondary); line-height: 1.5; }
+  .pe-cta {
+    display: block; margin: 0 18px 18px; padding: 12px;
+    background: var(--brand); color: white; text-align: center;
+    text-decoration: none; border-radius: var(--radius-sm); font-weight: 500; font-size: 13px;
+  }
+  .pe-footer { background: var(--surface-light); padding: 14px 18px; text-align: center; font-size: 10px; color: var(--tertiary); }
+  .pe-footer a { color: var(--brand); text-decoration: none; }
+
+  /* ─── CTA ─── */
+  .cta-section { padding: 120px 48px; text-align: center; position: relative; overflow: hidden; }
+  .cta-section h2 {
+    font-size: 48px; font-weight: 300; line-height: 1.07;
+    letter-spacing: -0.03em; color: var(--ink); margin-bottom: 20px; position: relative;
+  }
+  .cta-section > p {
+    font-size: 17px; color: var(--secondary); max-width: 440px; margin: 0 auto 40px;
+    line-height: 1.6; font-weight: 300;
+  }
+  .cta-actions { display: flex; justify-content: center; gap: 12px; }
+
+  /* ─── FOOTER ─── */
+  footer { padding: 32px 48px; border-top: 1px solid var(--surface-alt); }
+  .footer-inner {
+    max-width: 1200px; margin: 0 auto; width: 100%;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .footer-logo {
+    display: flex; align-items: flex-end; gap: 8px; font-size: 20px; font-weight: 800;
+    font-family: 'Plus Jakarta Sans', var(--font); letter-spacing: -0.03em; color: var(--ink); line-height: 1;
+  }
+  .footer-logo .logo-pulse {
+    background: linear-gradient(90deg, #4f9cf9 0%, #7c3aed 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  }
+  .footer-right { font-size: 13px; color: var(--tertiary); }
+
+  /* ─── PULSE DIVIDER ─── */
+  .pulse-divider { width: 100%; height: 50px; overflow: hidden; }
+  .pulse-divider svg { width: 100%; height: 100%; }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 1024px) {
+    .hero-inner { grid-template-columns: 1fr; gap: 48px; }
+    .browser-frame { transform: none; }
+    .browser-frame:hover { transform: none; }
+    .bd-sidebar { display: none; }
+    .problem-grid, .steps { grid-template-columns: 1fr; }
+    .metrics-showcase { grid-template-columns: repeat(2, 1fr); }
+    .email-inner { grid-template-columns: 1fr; }
+    .property-browser { max-width: 100%; }
+  }
+  @media (max-width: 640px) {
+    nav { padding: 0 16px; }
+    .nav-links a:not(.nav-cta) { display: none; }
+    .hero { padding: 80px 16px 40px; }
+    h1 { font-size: 36px; }
+    .hero-sub { font-size: 16px; }
+    .problem, .metrics-section { padding: 72px 16px; }
+    .how { padding: 72px 16px; }
+    .email-section, .property-section { padding: 72px 16px; }
+    .cta-section { padding: 80px 16px; }
+    .problem h2, .how h2, .email-content h2, .metrics-section h2, .property-section h2 { font-size: 30px; }
+    .cta-section h2 { font-size: 34px; }
+    .section-sub { font-size: 14px; }
+    .metrics-showcase { grid-template-columns: 1fr 1fr; }
+    .hero-actions { flex-direction: column; }
+    .btn-primary, .btn-secondary { width: 100%; justify-content: center; }
+    .footer-inner { flex-direction: column; gap: 12px; text-align: center; }
+    .browser-body { height: 340px; }
+    .bd-scroll-area { height: 340px; }
+    .bd-kpi-grid { grid-template-columns: repeat(2, 1fr); }
+    .bd-grid-row { grid-template-columns: 1fr; }
+    .bd-comp-table th:nth-child(5), .bd-comp-table td:nth-child(5),
+    .bd-comp-table th:nth-child(6), .bd-comp-table td:nth-child(6) { display: none; }
+    .bd-bar-label { display: none; }
+    .browser-url { font-size: 9px; }
+    .prop-bar-name { width: 70px; min-width: 70px; font-size: 10px; }
+    .pd-scroll-area { height: 360px; }
+    .pd-kpi-grid { grid-template-columns: repeat(2, 1fr); }
+    .pd-prop-top { flex-direction: column; align-items: flex-start; gap: 8px; }
+    .pd-prop-actions { align-self: flex-start; }
+    .pd-calendar { gap: 2px; }
+    .pd-cal-rooms { display: none; }
+    .pd-cal-date, .pd-cal-occ, .pd-cal-header { font-size: 7px; }
+    .pd-donut-wrap { flex-direction: column; align-items: center; }
+    .pd-table th:nth-child(5), .pd-table td:nth-child(5),
+    .pd-table th:nth-child(6), .pd-table td:nth-child(6) { display: none; }
+    .phone-frame { max-width: 100%; }
+    .phone-scroll-area { height: 420px; }
+    .pe-prop-metrics { grid-template-columns: repeat(2, 1fr); }
+    .pe-summary { grid-template-columns: repeat(2, 1fr); }
+    .proof-logos { gap: 20px 28px; }
+    .proof-logos svg, .proof-logos .proof-logo-img { height: 24px !important; width: auto; }
+    .bd-card { overflow-x: auto; }
+  }
+</style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#" class="nav-logo">
+      <svg width="28" height="28" viewBox="0 0 44 44" fill="none">
+        <defs>
+          <linearGradient id="nav-bar-grad" x1="0.5" y1="1" x2="0.5" y2="0">
+            <stop offset="0%" stop-color="#4f9cf9"/>
+            <stop offset="100%" stop-color="#7c3aed" stop-opacity="0.85"/>
+          </linearGradient>
+        </defs>
+        <rect x="18" y="6" width="8" height="36" rx="2" fill="url(#nav-bar-grad)"/>
+        <rect x="8" y="16" width="8" height="26" rx="2" fill="#4f9cf9" opacity="0.55"/>
+        <rect x="28" y="16" width="8" height="26" rx="2" fill="#4f9cf9" opacity="0.55"/>
+        <path d="M4,42 Q22,34 40,42" stroke="#4f9cf9" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.5"/>
+      </svg>
+      <span class="logo-pulse">pulse</span>
+    </a>
+    <div class="nav-links">
+      <a href="#problem">Why Pulse</a>
+      <a href="#how">How It Works</a>
+      <a href="#metrics">Metrics</a>
+      <a href="#cta" class="nav-cta">Get Early Access</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="hero-content">
+        <div class="hero-badge">Built for Portfolio Owners</div>
+        <h1>The vital signs of your hotel portfolio, <span class="gradient-text">at a glance.</span></h1>
+        <p class="hero-sub">Pulse gives multi-property hotel owners the executive-level intelligence they need to stop operating and start growing. Your ADR, RevPAR, occupancy, and revenue — consolidated, contextualized, delivered.</p>
+        <div class="hero-actions">
+          <a href="#cta" class="btn-primary">
+            Get Early Access
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+          <a href="#how" class="btn-secondary">See How It Works</a>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="browser-frame">
+          <div class="browser-chrome">
+            <div class="browser-dots"><span></span><span></span><span></span></div>
+            <div class="browser-url"><span class="lock-icon">●</span> app.getpulse.io/dashboard</div>
+          </div>
+          <div class="browser-body">
+            <!-- Sidebar -->
+            <div class="bd-sidebar">
+              <div class="bd-sidebar-logo">Pulse</div>
+              <div class="bd-nav-item active">Dashboard</div>
+              <div class="bd-nav-item">Properties</div>
+              <div class="bd-nav-item">Analytics</div>
+              <div class="bd-nav-item">Alerts</div>
+              <div class="bd-nav-section">My Properties</div>
+              <div class="bd-nav-item">Hampton Inn Pittsburgh</div>
+              <div class="bd-nav-item">Holiday Inn Exp. Fremont</div>
+              <div class="bd-nav-section">Settings</div>
+              <div class="bd-nav-item">Preferences</div>
+              <div class="bd-nav-item">Account</div>
+              <div class="bd-nav-item">Help & Support</div>
+            </div>
+            <!-- Main scrolling area -->
+            <div class="bd-main">
+              <div class="bd-scroll-area">
+                <div class="bd-scroll-content">
+                  <div class="bd-content">
+                    <!-- Top bar -->
+                    <div class="bd-topbar">
+                      <div>
+                        <h2>Portfolio Dashboard</h2>
+                        <div class="bd-date">Thursday, December 26, 2024 • Last updated: 7:00 AM</div>
+                      </div>
+                      <div class="bd-topbar-right">
+                        <div class="bd-select">Last 7 Days ▾</div>
+                        <div class="bd-avatar">JH</div>
+                      </div>
+                    </div>
+
+                    <!-- Alert -->
+                    <div class="bd-alert">
+                      <div class="bd-alert-icon"></div>
+                      <div class="bd-alert-text">
+                        <div class="bd-alert-title">2 Properties Need Attention</div>
+                        <div class="bd-alert-sub">Holiday Inn Express Fremont at critical 24.7% occupancy</div>
+                      </div>
+                      <button class="bd-alert-btn">View Details</button>
+                    </div>
+
+                    <!-- KPIs -->
+                    <div class="bd-kpi-grid">
+                      <div class="bd-kpi">
+                        <div class="bd-kpi-header">
+                          <div class="bd-kpi-label">Portfolio Occ</div>
+                          <div class="bd-kpi-icon purple"></div>
+                        </div>
+                        <div class="bd-kpi-value">34.8%</div>
+                        <div class="bd-kpi-change negative">▼ 12% vs last week</div>
+                      </div>
+                      <div class="bd-kpi">
+                        <div class="bd-kpi-header">
+                          <div class="bd-kpi-label">Average ADR</div>
+                          <div class="bd-kpi-icon blue"></div>
+                        </div>
+                        <div class="bd-kpi-value">$119</div>
+                        <div class="bd-kpi-change positive">▲ $3 vs MTD avg</div>
+                      </div>
+                      <div class="bd-kpi">
+                        <div class="bd-kpi-header">
+                          <div class="bd-kpi-label">Total Revenue</div>
+                          <div class="bd-kpi-icon green"></div>
+                        </div>
+                        <div class="bd-kpi-value">$6.5K</div>
+                        <div class="bd-kpi-change negative">▼ 18% vs last week</div>
+                      </div>
+                      <div class="bd-kpi">
+                        <div class="bd-kpi-header">
+                          <div class="bd-kpi-label">RevPAR</div>
+                          <div class="bd-kpi-icon orange"></div>
+                        </div>
+                        <div class="bd-kpi-value">$42</div>
+                        <div class="bd-kpi-change negative">▼ 15% vs last week</div>
+                      </div>
+                    </div>
+
+                    <!-- Chart + Properties -->
+                    <div class="bd-grid-row">
+                      <div class="bd-card">
+                        <div class="bd-card-header">
+                          <div class="bd-card-title">30-Day Occupancy Trend</div>
+                          <div class="bd-filters">
+                            <span class="bd-filter-btn active">Occupancy</span>
+                            <span class="bd-filter-btn">ADR</span>
+                            <span class="bd-filter-btn">RevPAR</span>
+                          </div>
+                        </div>
+                        <div class="bd-chart-bars">
+                          <div class="bd-bar" style="height:65%; animation-delay:0.1s"><span class="bd-bar-label">Dec 1</span></div>
+                          <div class="bd-bar" style="height:68%; animation-delay:0.15s"><span class="bd-bar-label">Dec 2</span></div>
+                          <div class="bd-bar" style="height:72%; animation-delay:0.2s"><span class="bd-bar-label">Dec 3</span></div>
+                          <div class="bd-bar" style="height:58%; animation-delay:0.25s"><span class="bd-bar-label">Dec 4</span></div>
+                          <div class="bd-bar" style="height:62%; animation-delay:0.3s"><span class="bd-bar-label">Dec 5</span></div>
+                          <div class="bd-bar" style="height:78%; animation-delay:0.35s"><span class="bd-bar-label">Dec 6</span></div>
+                          <div class="bd-bar" style="height:85%; animation-delay:0.4s"><span class="bd-bar-label">Dec 7</span></div>
+                          <div class="bd-bar" style="height:82%; animation-delay:0.45s"><span class="bd-bar-label">Dec 8</span></div>
+                          <div class="bd-bar" style="height:55%; animation-delay:0.5s"><span class="bd-bar-label">Dec 9</span></div>
+                          <div class="bd-bar" style="height:48%; animation-delay:0.55s"><span class="bd-bar-label">Dec 10</span></div>
+                          <div class="bd-bar" style="height:52%; animation-delay:0.6s"><span class="bd-bar-label">Dec 11</span></div>
+                          <div class="bd-bar" style="height:35%; background:#e74c3c; animation-delay:0.65s"><span class="bd-bar-label">Today</span></div>
+                        </div>
+                      </div>
+                      <div class="bd-card">
+                        <div class="bd-card-header">
+                          <div class="bd-card-title">Properties</div>
+                        </div>
+                        <div class="bd-prop-item">
+                          <div class="bd-prop-item-header">
+                            <div>
+                              <div class="bd-prop-name">Hampton Inn</div>
+                              <div class="bd-prop-brand">Pittsburgh West • Hilton</div>
+                            </div>
+                            <span class="bd-status warning">Warning</span>
+                          </div>
+                          <div class="bd-prop-metrics">
+                            <div class="bd-prop-m"><div class="bd-prop-m-label">Occ</div><div class="bd-prop-m-value">44.9%</div></div>
+                            <div class="bd-prop-m"><div class="bd-prop-m-label">ADR</div><div class="bd-prop-m-value">$118</div></div>
+                            <div class="bd-prop-m"><div class="bd-prop-m-label">Rev</div><div class="bd-prop-m-value">$4.2K</div></div>
+                          </div>
+                        </div>
+                        <div class="bd-prop-item">
+                          <div class="bd-prop-item-header">
+                            <div>
+                              <div class="bd-prop-name">Holiday Inn Express</div>
+                              <div class="bd-prop-brand">Fremont • IHG</div>
+                            </div>
+                            <span class="bd-status critical">Critical</span>
+                          </div>
+                          <div class="bd-prop-metrics">
+                            <div class="bd-prop-m"><div class="bd-prop-m-label">Occ</div><div class="bd-prop-m-value">24.7%</div></div>
+                            <div class="bd-prop-m"><div class="bd-prop-m-label">ADR</div><div class="bd-prop-m-value">$120</div></div>
+                            <div class="bd-prop-m"><div class="bd-prop-m-label">Rev</div><div class="bd-prop-m-value">$2.3K</div></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Comparison table -->
+                    <div class="bd-card" style="margin-bottom:12px">
+                      <div class="bd-card-header">
+                        <div class="bd-card-title">Property Performance Comparison</div>
+                        <div class="bd-filters">
+                          <span class="bd-filter-btn active">Yesterday</span>
+                          <span class="bd-filter-btn">This Week</span>
+                          <span class="bd-filter-btn">This Month</span>
+                          <span class="bd-filter-btn">YTD</span>
+                        </div>
+                      </div>
+                      <table class="bd-comp-table">
+                        <thead>
+                          <tr>
+                            <th>Property</th>
+                            <th>Occupancy</th>
+                            <th>ADR</th>
+                            <th>RevPAR</th>
+                            <th>Revenue</th>
+                            <th>vs Last Wk</th>
+                            <th>Status</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td class="prop-cell">Hampton Inn</td>
+                            <td>44.9%</td>
+                            <td>$118</td>
+                            <td>$53</td>
+                            <td>$4,209</td>
+                            <td><span class="bd-trend down">▼ 8%</span></td>
+                            <td><span class="bd-status warning">Warning</span></td>
+                          </tr>
+                          <tr>
+                            <td class="prop-cell">Holiday Inn Exp.</td>
+                            <td>24.7%</td>
+                            <td>$120</td>
+                            <td>$32</td>
+                            <td>$2,280</td>
+                            <td><span class="bd-trend down">▼ 22%</span></td>
+                            <td><span class="bd-status critical">Critical</span></td>
+                          </tr>
+                          <tr style="background:#f8f9fa; font-weight:600">
+                            <td class="prop-cell">Portfolio Total</td>
+                            <td>34.8%</td>
+                            <td>$119</td>
+                            <td>$43</td>
+                            <td>$6,489</td>
+                            <td><span class="bd-trend down">▼ 15%</span></td>
+                            <td>—</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+
+                    <!-- Forecast calendar -->
+                    <div class="bd-card">
+                      <div class="bd-card-header">
+                        <div class="bd-card-title">Next 7 Days — Booking Outlook</div>
+                      </div>
+                      <div class="bd-calendar">
+                        <div class="bd-cal-day future"><div class="bd-cal-day-label">Dec 27</div><div class="bd-cal-day-occ">42%</div></div>
+                        <div class="bd-cal-day future"><div class="bd-cal-day-label">Dec 28</div><div class="bd-cal-day-occ">38%</div></div>
+                        <div class="bd-cal-day future"><div class="bd-cal-day-label">Dec 29</div><div class="bd-cal-day-occ">35%</div></div>
+                        <div class="bd-cal-day future"><div class="bd-cal-day-label">Dec 30</div><div class="bd-cal-day-occ">48%</div></div>
+                        <div class="bd-cal-day medium"><div class="bd-cal-day-label">Dec 31</div><div class="bd-cal-day-occ">72%</div></div>
+                        <div class="bd-cal-day high"><div class="bd-cal-day-label">Jan 1</div><div class="bd-cal-day-occ">85%</div></div>
+                        <div class="bd-cal-day medium"><div class="bd-cal-day-label">Jan 2</div><div class="bd-cal-day-occ">68%</div></div>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROOF STRIP -->
+  <div class="proof-strip">
+    <p>Works with all major hotel brands</p>
+    <div class="proof-logos">
+      <img src="data:image/jpeg;base64,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" alt="Hilton Hotels & Resorts" height="44" class="proof-logo-img">
+      <img src="data:image/jpeg;base64,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" alt="IHG Hotels & Resorts" height="36" class="proof-logo-img">
+      <img src="data:image/jpeg;base64,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" alt="Marriott International" height="36" class="proof-logo-img">
+      <img src="data:image/jpeg;base64,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" alt="Choice Hotels" height="32" class="proof-logo-img">
+      <img src="data:image/jpeg;base64,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" alt="Best Western Hotels & Resorts" height="40" class="proof-logo-img">
+      <img src="data:image/jpeg;base64,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" alt="Wyndham Hotels & Resorts" height="28" class="proof-logo-img">
+    </div>
+  </div>
+
+  <!-- PROBLEM -->
+  <section class="problem" id="problem">
+    <h2>Enterprise tools weren't built for you. Spreadsheets don't scale.</h2>
+    <div class="problem-grid">
+      <div class="problem-card">
+        <div class="problem-icon purple"></div>
+        <h4>Drowning in PDF reports</h4>
+        <p>Night audit reports, brand reports, property data — scattered across inboxes and portals. You shouldn't need an analyst to read your own numbers.</p>
+      </div>
+      <div class="problem-card">
+        <div class="problem-icon blue"></div>
+        <h4>Tools built for chains, not you</h4>
+        <p>Enterprise platforms charge thousands and require training. You need something that works the moment you open it.</p>
+      </div>
+      <div class="problem-card">
+        <div class="problem-icon orange"></div>
+        <h4>One person holds all the knowledge</h4>
+        <p>Every family has that one person everyone calls for the numbers. That's a risk, not a strategy. Pulse gives everyone the same view.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PULSE LINE -->
+  <div class="pulse-divider">
+    <svg viewBox="0 0 1200 50" preserveAspectRatio="none">
+      <path d="M0,25 L350,25 L380,8 L400,42 L420,15 L440,35 L460,25 L1200,25"
+        fill="none" stroke="#667eea" stroke-width="1.5" opacity="0.15">
+        <animate attributeName="stroke-dashoffset" from="2400" to="0" dur="2.5s" fill="freeze"/>
+        <animate attributeName="stroke-dasharray" values="0 2400;2400 0" dur="2.5s" fill="freeze"/>
+      </path>
+    </svg>
+  </div>
+
+  <!-- HOW IT WORKS -->
+  <section class="how" id="how">
+    <div class="how-inner">
+      <h2>Ten minutes to set up. Zero minutes a day after that.</h2>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">01</div>
+          <h4>Sign up and get your Pulse email</h4>
+          <p>Create your account, add your properties, and we'll assign you a unique Pulse email address. We'll walk you through setting up CSV report scheduling — takes about 10 minutes per property.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">02</div>
+          <h4>Forward your night audit reports</h4>
+          <p>Add your Pulse email to your brand's night audit report schedule. Once reports start arriving, Pulse automatically parses, normalizes, and contextualizes your data across every property.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">03</div>
+          <h4>That's it. Insights come to you.</h4>
+          <p>Every morning you'll get a daily email with your portfolio's vital signs — before your first cup of coffee. Click through to the full dashboard anytime you want to dig deeper. No daily work required.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- METRICS -->
+  <section class="metrics-section" id="metrics">
+    <h2>Four metrics. Every property. One view.</h2>
+    <p class="section-sub">Every hotel owner tracks these metrics. Pulse shows you what they actually mean across your whole portfolio.</p>
+    <div class="metrics-showcase">
+      <div class="metric-showcase-card">
+        <div class="m-icon purple"></div>
+        <h4>ADR</h4>
+        <p>Average Daily Rate across properties. See which hotels are pricing above or below market.</p>
+      </div>
+      <div class="metric-showcase-card">
+        <div class="m-icon blue"></div>
+        <h4>RevPAR</h4>
+        <p>Revenue per available room — the true pulse of performance. Compared across your portfolio and competitors.</p>
+      </div>
+      <div class="metric-showcase-card">
+        <div class="m-icon green"></div>
+        <h4>Occupancy</h4>
+        <p>Fill rates with historical context. Spot seasonal patterns before they hit your bottom line.</p>
+      </div>
+      <div class="metric-showcase-card">
+        <div class="m-icon orange"></div>
+        <h4>Revenue</h4>
+        <p>Daily, weekly, monthly — consolidated. See the total picture without opening four different systems.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROPERTY DETAIL -->
+  <section class="property-section" id="property-detail">
+    <div class="property-section-inner">
+      <h2>Click any property. Get the full story.</h2>
+      <p class="section-sub">From the portfolio view, tap any property to see the full picture — occupancy forecast, channel mix, daily breakdowns, and AI-powered recommendations.</p>
+
+      <div class="property-browser">
+        <div class="browser-chrome">
+          <div class="browser-dots"><span></span><span></span><span></span></div>
+          <div class="browser-url"><span class="lock-icon">●</span> app.getpulse.io/property/hampton-inn-pittsburgh</div>
+        </div>
+        <div class="browser-body">
+          <!-- Sidebar -->
+          <div class="bd-sidebar">
+            <div class="bd-sidebar-logo">Pulse</div>
+            <div class="bd-nav-item">Dashboard</div>
+            <div class="bd-nav-item">Properties</div>
+            <div class="bd-nav-item">Analytics</div>
+            <div class="bd-nav-item">Alerts</div>
+            <div class="bd-nav-section">My Properties</div>
+            <div class="bd-nav-item active">Hampton Inn Pittsburgh</div>
+            <div class="bd-nav-item">Holiday Inn Exp. Fremont</div>
+            <div class="bd-nav-section">Settings</div>
+            <div class="bd-nav-item">Preferences</div>
+            <div class="bd-nav-item">Account</div>
+          </div>
+          <!-- Main scrolling area -->
+          <div class="pd-main">
+            <div class="pd-scroll-area">
+              <div class="pd-scroll-content">
+                <div class="pd-content">
+
+                  <!-- Breadcrumb -->
+                  <div class="pd-breadcrumb">
+                    <a href="#">Dashboard</a> › Hampton Inn Pittsburgh West
+                  </div>
+
+                  <!-- Property Header -->
+                  <div class="pd-prop-header">
+                    <div class="pd-prop-top">
+                      <div class="pd-prop-title-row">
+                        <span class="pd-prop-icon"></span>
+                        <div>
+                          <div class="pd-prop-title">Hampton Inn Pittsburgh West</div>
+                          <div class="pd-prop-subtitle">PITWM • Hilton Brand • 69 Total Rooms</div>
+                        </div>
+                      </div>
+                      <div class="pd-prop-actions">
+                        <button class="pd-action-btn secondary"> Contact Manager</button>
+                        <button class="pd-action-btn primary">View Reports</button>
+                      </div>
+                    </div>
+                    <div class="pd-pulse-row">
+                      <div class="pd-pulse-circle">
+                        <div class="pd-pulse-inner">72</div>
+                      </div>
+                      <div>
+                        <div class="pd-pulse-status"> Needs Attention</div>
+                        <div class="pd-pulse-desc">Occupancy at 44.9% is below typical Saturday performance. MTD occupancy is stronger at 50.2%. Consider weekend promotion strategy.</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Alert -->
+                  <div class="pd-alert">
+                    <div class="pd-alert-title"> Recommended Action</div>
+                    <div class="pd-alert-text">Saturday occupancy is 15% below your 4-week average. Review weekend rates and consider launching a local promotion for next weekend.</div>
+                  </div>
+
+                  <!-- KPIs -->
+                  <div class="pd-kpi-grid">
+                    <div class="pd-kpi">
+                      <div class="pd-kpi-label">Occupancy</div>
+                      <div class="pd-kpi-value">44.9%</div>
+                      <div class="pd-kpi-sub">31 of 69 rooms</div>
+                      <div class="pd-kpi-change negative">▼ 8% vs last wk</div>
+                    </div>
+                    <div class="pd-kpi">
+                      <div class="pd-kpi-label">ADR</div>
+                      <div class="pd-kpi-value">$118</div>
+                      <div class="pd-kpi-sub">Avg daily rate</div>
+                      <div class="pd-kpi-change positive">▲ $2 vs MTD</div>
+                    </div>
+                    <div class="pd-kpi">
+                      <div class="pd-kpi-label">RevPAR</div>
+                      <div class="pd-kpi-value">$53</div>
+                      <div class="pd-kpi-sub">Per avail room</div>
+                      <div class="pd-kpi-change negative">▼ 12% vs LY</div>
+                    </div>
+                    <div class="pd-kpi">
+                      <div class="pd-kpi-label">Revenue</div>
+                      <div class="pd-kpi-value">$4.2K</div>
+                      <div class="pd-kpi-sub">Yesterday's total</div>
+                      <div class="pd-kpi-change negative">▼ 18% vs last wk</div>
+                    </div>
+                    <div class="pd-kpi">
+                      <div class="pd-kpi-label">Guests</div>
+                      <div class="pd-kpi-value">51</div>
+                      <div class="pd-kpi-sub">36 adults, 15 kids</div>
+                      <div class="pd-kpi-change">21 stayovers</div>
+                    </div>
+                  </div>
+
+                  <!-- Charts row -->
+                  <div class="bd-grid-row">
+                    <div class="bd-card">
+                      <div class="bd-card-header">
+                        <div class="bd-card-title">30-Day Performance</div>
+                        <div class="bd-filters">
+                          <span class="bd-filter-btn active">Occupancy</span>
+                          <span class="bd-filter-btn">ADR</span>
+                          <span class="bd-filter-btn">Revenue</span>
+                        </div>
+                      </div>
+                      <div class="bd-chart-bars">
+                        <div class="bd-bar" style="height:72%; animation-delay:0.1s"><span class="bd-bar-label">Dec 1</span></div>
+                        <div class="bd-bar" style="height:68%; animation-delay:0.15s"><span class="bd-bar-label">Dec 5</span></div>
+                        <div class="bd-bar" style="height:85%; animation-delay:0.2s"><span class="bd-bar-label">Dec 10</span></div>
+                        <div class="bd-bar" style="height:82%; animation-delay:0.25s"><span class="bd-bar-label">Dec 15</span></div>
+                        <div class="bd-bar" style="height:78%; animation-delay:0.3s"><span class="bd-bar-label">Dec 20</span></div>
+                        <div class="bd-bar" style="height:52%; animation-delay:0.35s"><span class="bd-bar-label">Dec 23</span></div>
+                        <div class="bd-bar" style="height:45%; background:#e74c3c; animation-delay:0.4s"><span class="bd-bar-label">Today</span></div>
+                      </div>
+                    </div>
+                    <div class="bd-card">
+                      <div class="bd-card-header">
+                        <div class="bd-card-title">Yesterday's Details</div>
+                      </div>
+                      <div style="display:flex; flex-direction:column; gap:5px;">
+                        <div style="display:flex; justify-content:space-between; padding:5px 8px; background:#f8f9fa; border-radius:4px; font-size:10px;">
+                          <span style="color:#7f8c8d">Arrivals</span><span style="font-weight:700; color:#2c3e50">12</span>
+                        </div>
+                        <div style="display:flex; justify-content:space-between; padding:5px 8px; background:#f8f9fa; border-radius:4px; font-size:10px;">
+                          <span style="color:#7f8c8d">Departures</span><span style="font-weight:700; color:#2c3e50">6</span>
+                        </div>
+                        <div style="display:flex; justify-content:space-between; padding:5px 8px; background:#f8f9fa; border-radius:4px; font-size:10px;">
+                          <span style="color:#7f8c8d">Walk-ins</span><span style="font-weight:700; color:#2c3e50">2</span>
+                        </div>
+                        <div style="display:flex; justify-content:space-between; padding:5px 8px; background:#f8f9fa; border-radius:4px; font-size:10px;">
+                          <span style="color:#7f8c8d">Cancellations</span><span style="font-weight:700; color:#2c3e50">2</span>
+                        </div>
+                        <div style="display:flex; justify-content:space-between; padding:5px 8px; background:#f8f9fa; border-radius:4px; font-size:10px;">
+                          <span style="color:#7f8c8d">Clean Rooms</span><span style="font-weight:700; color:#2c3e50">61</span>
+                        </div>
+                        <div style="display:flex; justify-content:space-between; padding:5px 8px; background:#f8f9fa; border-radius:4px; font-size:10px;">
+                          <span style="color:#7f8c8d">Out of Order</span><span style="font-weight:700; color:#2c3e50">5</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Calendar heatmap -->
+                  <div class="bd-card" style="margin-bottom:12px">
+                    <div class="bd-card-header">
+                      <div class="bd-card-title">Next 28 Days — Occupancy Forecast</div>
+                      <div class="bd-filters">
+                        <span class="bd-filter-btn active">Occupancy</span>
+                        <span class="bd-filter-btn">Revenue</span>
+                      </div>
+                    </div>
+                    <div class="pd-calendar">
+                      <div class="pd-cal-header">Sun</div><div class="pd-cal-header">Mon</div><div class="pd-cal-header">Tue</div><div class="pd-cal-header">Wed</div><div class="pd-cal-header">Thu</div><div class="pd-cal-header">Fri</div><div class="pd-cal-header">Sat</div>
+                      <div class="pd-cal-day medium"><div class="pd-cal-date">26</div><div class="pd-cal-occ">45%</div><div class="pd-cal-rooms">31 rms</div></div>
+                      <div class="pd-cal-day low"><div class="pd-cal-date">27</div><div class="pd-cal-occ">38%</div><div class="pd-cal-rooms">26 rms</div></div>
+                      <div class="pd-cal-day low"><div class="pd-cal-date">28</div><div class="pd-cal-occ">42%</div><div class="pd-cal-rooms">29 rms</div></div>
+                      <div class="pd-cal-day medium"><div class="pd-cal-date">29</div><div class="pd-cal-occ">48%</div><div class="pd-cal-rooms">33 rms</div></div>
+                      <div class="pd-cal-day medium"><div class="pd-cal-date">30</div><div class="pd-cal-occ">58%</div><div class="pd-cal-rooms">40 rms</div></div>
+                      <div class="pd-cal-day high"><div class="pd-cal-date">31</div><div class="pd-cal-occ">85%</div><div class="pd-cal-rooms">59 rms</div></div>
+                      <div class="pd-cal-day high"><div class="pd-cal-date">1</div><div class="pd-cal-occ">92%</div><div class="pd-cal-rooms">63 rms</div></div>
+                      <div class="pd-cal-day high"><div class="pd-cal-date">2</div><div class="pd-cal-occ">78%</div><div class="pd-cal-rooms">54 rms</div></div>
+                      <div class="pd-cal-day medium"><div class="pd-cal-date">3</div><div class="pd-cal-occ">52%</div><div class="pd-cal-rooms">36 rms</div></div>
+                      <div class="pd-cal-day medium"><div class="pd-cal-date">4</div><div class="pd-cal-occ">55%</div><div class="pd-cal-rooms">38 rms</div></div>
+                      <div class="pd-cal-day medium"><div class="pd-cal-date">5</div><div class="pd-cal-occ">62%</div><div class="pd-cal-rooms">43 rms</div></div>
+                      <div class="pd-cal-day high"><div class="pd-cal-date">6</div><div class="pd-cal-occ">72%</div><div class="pd-cal-rooms">50 rms</div></div>
+                      <div class="pd-cal-day high"><div class="pd-cal-date">7</div><div class="pd-cal-occ">88%</div><div class="pd-cal-rooms">61 rms</div></div>
+                    </div>
+                  </div>
+
+                  <!-- Revenue breakdown + Financial -->
+                  <div class="bd-grid-row">
+                    <div class="bd-card">
+                      <div class="bd-card-header">
+                        <div class="bd-card-title">Revenue by Channel (MTD)</div>
+                      </div>
+                      <div class="pd-donut-wrap">
+                        <div class="pd-donut">
+                          <div class="pd-donut-center">
+                            <div class="pd-donut-label">Total</div>
+                            <div class="pd-donut-value">$133K</div>
+                          </div>
+                        </div>
+                        <div class="pd-legend">
+                          <div class="pd-legend-item"><span class="pd-legend-label"><span class="pd-legend-dot" style="background:#3498db"></span>Direct</span><span class="pd-legend-val">36%</span></div>
+                          <div class="pd-legend-item"><span class="pd-legend-label"><span class="pd-legend-dot" style="background:#e74c3c"></span>Expedia</span><span class="pd-legend-val">14%</span></div>
+                          <div class="pd-legend-item"><span class="pd-legend-label"><span class="pd-legend-dot" style="background:#f39c12"></span>Booking.com</span><span class="pd-legend-val">14%</span></div>
+                          <div class="pd-legend-item"><span class="pd-legend-label"><span class="pd-legend-dot" style="background:#9b59b6"></span>Corporate</span><span class="pd-legend-val">14%</span></div>
+                          <div class="pd-legend-item"><span class="pd-legend-label"><span class="pd-legend-dot" style="background:#95a5a6"></span>Other</span><span class="pd-legend-val">22%</span></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="bd-card">
+                      <div class="bd-card-header">
+                        <div class="bd-card-title">Financial Summary (MTD)</div>
+                      </div>
+                      <div style="display:flex; flex-direction:column; gap:5px;">
+                        <div style="display:flex; justify-content:space-between; padding:5px 8px; background:#f8f9fa; border-radius:4px; font-size:10px;">
+                          <span style="color:#7f8c8d">Room Revenue</span><span style="font-weight:700; color:#2c3e50">$115K</span>
+                        </div>
+                        <div style="display:flex; justify-content:space-between; padding:5px 8px; background:#f8f9fa; border-radius:4px; font-size:10px;">
+                          <span style="color:#7f8c8d">Other Revenue</span><span style="font-weight:700; color:#2c3e50">$1.9K</span>
+                        </div>
+                        <div style="display:flex; justify-content:space-between; padding:5px 8px; background:#f8f9fa; border-radius:4px; font-size:10px;">
+                          <span style="color:#7f8c8d">Taxes Collected</span><span style="font-weight:700; color:#2c3e50">$16K</span>
+                        </div>
+                        <div style="display:flex; justify-content:space-between; padding:5px 8px; background:#e8f5e9; border-radius:4px; font-size:10px;">
+                          <span style="color:#7f8c8d">Total Revenue</span><span style="font-weight:700; color:#27ae60">$133K</span>
+                        </div>
+                        <div style="display:flex; justify-content:space-between; padding:5px 8px; background:#f8f9fa; border-radius:4px; font-size:10px;">
+                          <span style="color:#7f8c8d">Franchise Fees</span><span style="font-weight:700; color:#2c3e50">$9.3K</span>
+                        </div>
+                        <div style="display:flex; justify-content:space-between; padding:5px 8px; background:#f8f9fa; border-radius:4px; font-size:10px;">
+                          <span style="color:#7f8c8d">vs Budget</span><span style="font-weight:700; color:#27ae60">+8.5%</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- 7-Day Breakdown Table -->
+                  <div class="bd-card" style="margin-bottom:12px">
+                    <div class="bd-card-header">
+                      <div class="bd-card-title">Last 7 Days — Daily Breakdown</div>
+                    </div>
+                    <table class="pd-table">
+                      <thead>
+                        <tr><th>Date</th><th>Day</th><th>Occ</th><th>Rooms</th><th>ADR</th><th>RevPAR</th><th>Revenue</th><th>vs LY</th></tr>
+                      </thead>
+                      <tbody>
+                        <tr><td>Dec 26</td><td>Thu</td><td>44.9%</td><td>31</td><td>$118</td><td>$53</td><td>$4,209</td><td style="color:#e74c3c">▼ 8%</td></tr>
+                        <tr><td>Dec 25</td><td>Wed</td><td>52.2%</td><td>36</td><td>$123</td><td>$64</td><td>$4,890</td><td style="color:#27ae60">▲ 5%</td></tr>
+                        <tr><td>Dec 24</td><td>Tue</td><td>48.5%</td><td>33</td><td>$115</td><td>$56</td><td>$4,272</td><td style="color:#27ae60">▲ 3%</td></tr>
+                        <tr><td>Dec 23</td><td>Mon</td><td>58.0%</td><td>40</td><td>$126</td><td>$73</td><td>$5,580</td><td style="color:#27ae60">▲ 12%</td></tr>
+                        <tr><td>Dec 22</td><td>Sun</td><td>78.3%</td><td>54</td><td>$128</td><td>$101</td><td>$7,694</td><td style="color:#27ae60">▲ 18%</td></tr>
+                        <tr><td>Dec 21</td><td>Sat</td><td>82.6%</td><td>57</td><td>$133</td><td>$110</td><td>$8,398</td><td style="color:#27ae60">▲ 22%</td></tr>
+                        <tr><td>Dec 20</td><td>Fri</td><td>72.5%</td><td>50</td><td>$125</td><td>$90</td><td>$6,909</td><td style="color:#27ae60">▲ 15%</td></tr>
+                      </tbody>
+                    </table>
+                  </div>
+
+                  <!-- AI Insights -->
+                  <div class="pd-insight-card">
+                    <div class="pd-insight-title">AI-Powered Insights</div>
+                    <div class="pd-insight-text">Based on historical patterns, your property typically sees a 15-20% occupancy dip the week after Christmas. However, NYE bookings are tracking 25% ahead of last year. Consider a "Stay 2, Get 3rd Night 50% Off" promo for Dec 27-30 to fill the mid-week gap. Direct booking % (36%) is strong — focus OTA spend on Dec 27-29 specifically.</div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EMAIL FIRST -->
+  <section class="email-section" id="email">
+    <div class="email-inner">
+      <div class="email-content">
+        <h2>Your numbers, before your coffee.</h2>
+        <p>We know you're busy. That's why Pulse delivers your numbers before you even open a browser. Skim the email, and you know where you stand.</p>
+        <ul class="email-features">
+          <li>
+            <span class="check-circle">✓</span>
+            <span>All four key metrics for every property, every morning</span>
+          </li>
+          <li>
+            <span class="check-circle">✓</span>
+            <span>Automatic comparisons to last week, last month, last year</span>
+          </li>
+          <li>
+            <span class="check-circle">✓</span>
+            <span>AI-powered insights flag what needs your attention</span>
+          </li>
+          <li>
+            <span class="check-circle">✓</span>
+            <span>One-tap to the full dashboard when you want to dig deeper</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="phone-frame">
+        <div class="phone-notch"></div>
+        <div class="phone-screen">
+          <div class="phone-email-bar">
+            <div class="email-from-row">
+              <div class="email-avatar">P</div>
+              <div>
+                <div class="email-sender">Pulse Daily Brief</div>
+                <div class="email-time">6:00 AM • To: me</div>
+              </div>
+            </div>
+            <div class="email-subject">Your Daily Pulse Report</div>
+          </div>
+          <div class="phone-scroll-area">
+            <div class="phone-scroll-content">
+              <div class="pe-container">
+                <!-- Header -->
+                <div class="pe-header">
+                  <h3>Your Daily Pulse Report</h3>
+                  <div class="pe-sub">Portfolio Overview - 2 Properties</div>
+                  <div class="pe-date">Thursday, December 26, 2024</div>
+                </div>
+
+                <!-- Portfolio Summary -->
+                <div class="pe-summary">
+                  <div class="pe-metric">
+                    <div class="pe-metric-label">Portfolio Occ</div>
+                    <div class="pe-metric-value">34.8%</div>
+                    <div class="pe-metric-sub">50 rooms sold</div>
+                  </div>
+                  <div class="pe-metric">
+                    <div class="pe-metric-label">Avg ADR</div>
+                    <div class="pe-metric-value">$119</div>
+                    <div class="pe-metric-sub">Across properties</div>
+                  </div>
+                  <div class="pe-metric">
+                    <div class="pe-metric-label">Total Revenue</div>
+                    <div class="pe-metric-value">$6.5K</div>
+                    <div class="pe-metric-sub">Yesterday</div>
+                  </div>
+                  <div class="pe-metric">
+                    <div class="pe-metric-label">Pulse Score</div>
+                    <div class="pe-metric-value">68</div>
+                    <div class="pe-metric-sub">Needs attention</div>
+                  </div>
+                </div>
+
+                <!-- Alerts -->
+                <div class="pe-section">
+                  <div class="pe-alert">
+                    <div class="pe-alert-title"> Attention Needed</div>
+                    <ul class="pe-alert-list">
+                      <li>Hampton Inn occupancy (44.9%) below weekend target</li>
+                      <li>Holiday Inn Express at critically low 24.7% occupancy</li>
+                    </ul>
+                  </div>
+                </div>
+
+                <!-- Properties -->
+                <div class="pe-section">
+                  <div class="pe-section-title"> Property Performance</div>
+
+                  <!-- Hampton Inn -->
+                  <div class="pe-property warning">
+                    <div class="pe-prop-header">
+                      <div>
+                        <div class="pe-prop-name">Hampton Inn Pittsburgh West</div>
+                        <div class="pe-prop-code">PITWM</div>
+                      </div>
+                      <span class="pe-brand-badge hilton">Hilton</span>
+                    </div>
+                    <div class="pe-prop-metrics">
+                      <div class="pe-pm">
+                        <div class="pe-pm-label">Occupancy</div>
+                        <div class="pe-pm-value">44.9%</div>
+                        <div class="pe-pm-sub">31/69 rooms</div>
+                      </div>
+                      <div class="pe-pm">
+                        <div class="pe-pm-label">ADR</div>
+                        <div class="pe-pm-value">$118</div>
+                        <div class="pe-pm-sub">Average rate</div>
+                      </div>
+                      <div class="pe-pm">
+                        <div class="pe-pm-label">RevPAR</div>
+                        <div class="pe-pm-value">$53</div>
+                        <div class="pe-pm-sub">Per room</div>
+                      </div>
+                      <div class="pe-pm">
+                        <div class="pe-pm-label">Revenue</div>
+                        <div class="pe-pm-value">$4.2K</div>
+                        <div class="pe-pm-sub">Yesterday</div>
+                      </div>
+                    </div>
+                    <div class="pe-prop-insight">
+                      <span></span>
+                      <div><strong>Insight:</strong> Occupancy below typical for a Saturday. MTD occupancy is stronger at 50.2%. Consider running a weekend promotion.</div>
+                    </div>
+                  </div>
+
+                  <!-- Holiday Inn -->
+                  <div class="pe-property warning">
+                    <div class="pe-prop-header">
+                      <div>
+                        <div class="pe-prop-name">Holiday Inn Express Fremont</div>
+                        <div class="pe-prop-code">Fremont, CA</div>
+                      </div>
+                      <span class="pe-brand-badge ihg">IHG</span>
+                    </div>
+                    <div class="pe-prop-metrics">
+                      <div class="pe-pm">
+                        <div class="pe-pm-label">Occupancy</div>
+                        <div class="pe-pm-value">24.7%</div>
+                        <div class="pe-pm-sub">19/77 rooms</div>
+                      </div>
+                      <div class="pe-pm">
+                        <div class="pe-pm-label">ADR</div>
+                        <div class="pe-pm-value">$120</div>
+                        <div class="pe-pm-sub">Average rate</div>
+                      </div>
+                      <div class="pe-pm">
+                        <div class="pe-pm-label">RevPAR</div>
+                        <div class="pe-pm-value">$32</div>
+                        <div class="pe-pm-sub">Per room</div>
+                      </div>
+                      <div class="pe-pm">
+                        <div class="pe-pm-label">Revenue</div>
+                        <div class="pe-pm-value">$2.3K</div>
+                        <div class="pe-pm-sub">Yesterday</div>
+                      </div>
+                    </div>
+                    <div class="pe-prop-insight">
+                      <span></span>
+                      <div><strong>Critical:</strong> Occupancy at 24.7% is significantly below target. Day after Christmas is typically slow, but consider aggressive rate drops or contacting local corporate accounts.</div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Comparison -->
+                <div class="pe-section">
+                  <div class="pe-comparison">
+                    <div class="pe-comp-title">Head-to-Head Comparison</div>
+                    <table class="pe-comp-table">
+                      <thead>
+                        <tr>
+                          <th>Property</th>
+                          <th style="text-align:center">Occ %</th>
+                          <th style="text-align:center">ADR</th>
+                          <th style="text-align:center">RevPAR</th>
+                          <th style="text-align:center">Rank</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td style="font-weight:600">Hampton Inn</td>
+                          <td style="text-align:center">44.9%</td>
+                          <td style="text-align:center">$118</td>
+                          <td style="text-align:center">$53</td>
+                          <td style="text-align:center"><span class="pe-rank gold">1</span></td>
+                        </tr>
+                        <tr>
+                          <td style="font-weight:600">Holiday Inn Exp.</td>
+                          <td style="text-align:center">24.7%</td>
+                          <td style="text-align:center">$120</td>
+                          <td style="text-align:center">$32</td>
+                          <td style="text-align:center"><span class="pe-rank silver">2</span></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                <!-- MTD -->
+                <div class="pe-section">
+                  <div class="pe-alert info">
+                    <div class="pe-alert-title"> December Performance (MTD)</div>
+                    <ul class="pe-alert-list">
+                      <li><strong>Hampton Inn:</strong> 50.2% occ | 969 rooms | $133K rev</li>
+                      <li><strong>Holiday Inn Exp:</strong> 43.0% occ | 828 rooms | $111K rev</li>
+                      <li><strong>Combined:</strong> $244K revenue for December so far</li>
+                    </ul>
+                  </div>
+                </div>
+
+                <!-- Actions -->
+                <div class="pe-section">
+                  <div class="pe-section-title"> Recommended Actions</div>
+                  <div class="pe-action">
+                    <div class="pe-action-title">1. Fremont — Immediate Action</div>
+                    <div class="pe-action-text">24.7% occupancy is critical. Review pricing and reach out to corporate accounts for end-of-year bookings.</div>
+                  </div>
+                  <div class="pe-action">
+                    <div class="pe-action-title">2. Hampton Inn — Monitor</div>
+                    <div class="pe-action-text">Weekend occ at 44.9% is below target. MTD is better at 50.2%. Watch next weekend.</div>
+                  </div>
+                  <div class="pe-action">
+                    <div class="pe-action-title">3. New Year's Week Strategy</div>
+                    <div class="pe-action-text">Both properties: Focus on capturing NYE travel. Review rates for Dec 30–Jan 2.</div>
+                  </div>
+                </div>
+
+                <!-- CTA -->
+                <a href="#" class="pe-cta">View Full Portfolio Dashboard →</a>
+
+                <!-- Footer -->
+                <div class="pe-footer">
+                  Powered by Pulse — Your Business Dashboard<br>
+                  <a href="#">View Dashboard</a> · <a href="#">Settings</a> · <a href="#">Support</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="phone-home-bar"><div></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section" id="cta">
+    <h2>See your portfolio clearly.</h2>
+    <p>Pulse is built for hotel owners who think like executives. Join the early access list and be first to see your portfolio differently.</p>
+    <div class="cta-actions">
+      <a href="#" class="btn-primary">
+        Request Early Access
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+      <a href="#" class="btn-secondary">Schedule a Demo</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-logo">
+        <svg width="20" height="20" viewBox="0 0 44 44" fill="none">
+          <defs>
+            <linearGradient id="ft-bar-grad" x1="0.5" y1="1" x2="0.5" y2="0">
+              <stop offset="0%" stop-color="#4f9cf9"/>
+              <stop offset="100%" stop-color="#7c3aed" stop-opacity="0.85"/>
+            </linearGradient>
+          </defs>
+          <rect x="18" y="6" width="8" height="36" rx="2" fill="url(#ft-bar-grad)"/>
+          <rect x="8" y="16" width="8" height="26" rx="2" fill="#4f9cf9" opacity="0.55"/>
+          <rect x="28" y="16" width="8" height="26" rx="2" fill="#4f9cf9" opacity="0.55"/>
+          <path d="M4,42 Q22,34 40,42" stroke="#4f9cf9" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.5"/>
+        </svg>
+        <span class="logo-pulse">pulse</span>
+      </div>
+      <div class="footer-right">
+        © 2026 Pulse. Hotel Portfolio Intelligence.
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
